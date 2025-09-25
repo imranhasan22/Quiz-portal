@@ -1,0 +1,1 @@
+// export const config={api:process.env.AXIOS_BASE_URL||""}
