@@ -1,6 +1,7 @@
 import React, { useMemo, useState } from "react";
 import AddUserModal from "./AddUserModal";
 import { useRef, useEffect } from "react";
+import Topbar from "./Topbar";
 import EditUserModal from "./EditUserModal";
 import ConfirmDialog from "./ConfirmDialog";
 import { TableBody, Table, TableCell, TableHeader, TableRow } from "./ui/table";
@@ -113,6 +114,7 @@ type UserRow = {
   id: number;
   sl: string;
   process: string;
+
   name: string;
   employeeId: string;
   role: "New Joiner" | "Agent" | "Admin";
@@ -165,104 +167,103 @@ const makeRows = (n = 97): UserRow[] =>
 
 const ALL_ROWS = makeRows();
 
-const Topbar: React.FC = () => {
+// const Topbar: React.FC = () => {
 
-  const [menuOpen, setMenuOpen] = useState(false);
-  const menuRef = useRef<HTMLDivElement>(null);
+//   const [menuOpen, setMenuOpen] = useState(false);
+//   const menuRef = useRef<HTMLDivElement>(null);
 
-  useEffect(() => {
-    const onClickOutside = (e: MouseEvent) => {
-      if (menuRef.current && !menuRef.current.contains(e.target as Node)) {
-        setMenuOpen(false);
-      }
-    };
-    document.addEventListener("mousedown", onClickOutside);
-    return () => document.removeEventListener("mousedown", onClickOutside);
-  }, []);
+//   useEffect(() => {
+//     const onClickOutside = (e: MouseEvent) => {
+//       if (menuRef.current && !menuRef.current.contains(e.target as Node)) {
+//         setMenuOpen(false);
+//       }
+//     };
+//     document.addEventListener("mousedown", onClickOutside);
+//     return () => document.removeEventListener("mousedown", onClickOutside);
+//   }, []);
 
-  return (
-    <div className="sticky top-0 z-10 flex h-16 items-center justify-between border-b bg-white px-4 md:px-6">
-      <div className="flex items-center gap-3">
-        <UserCircle2 className="h-5 w-5" />
-        <h1 className="text-lg font-semibold">User</h1>
-      </div>
+//   return (
+//     <div className="sticky top-0 z-10 flex h-16 items-center justify-between border-b bg-white px-4 md:px-6">
+//       <div className="flex items-center gap-3">
+//         <UserCircle2 className="h-5 w-5" />
+//         <h1 className="text-lg font-semibold">User</h1>
+//       </div>
 
-      <div className="flex items-center">
-        <button
-          className="mr-16 grid h-8 w-8 place-items-center rounded-xl border hover:bg-gray-50"
-          aria-label="Notifications"
-        >
-          <Bell className="h-7 w-7" />
-        </button>
+//       <div className="flex items-center">
+//         <button
+//           className="mr-16 grid h-8 w-8 place-items-center rounded-xl border hover:bg-gray-50"
+//           aria-label="Notifications"
+//         >
+//           <Bell className="h-7 w-7" />
+//         </button>
 
-        <div className="items-center gap-3 ml-5 bg-white px-2 py-2 md:flex">
+//         <div className="items-center gap-3 ml-5 bg-white px-2 py-2 md:flex">
 
-          <UserCircle2 className="grid h-8 w-8 rounded-xl border hover:bg-gray-50" />
-          <span className="text-xm font-medium">Imran Hasan</span>
-        </div>
+//           <UserCircle2 className="grid h-8 w-8 rounded-xl border hover:bg-gray-50" />
+//           <span className="text-xm font-medium">Imran Hasan</span>
+//         </div>
 
 
-        <div className="relative" ref={menuRef}>
-          <button
-            onClick={() => setMenuOpen((v) => !v)}
-            className="grid h-10 w-10 place-items-center rounded-xl hover:bg-gray-50"
-            aria-haspopup="menu"
-            aria-expanded={menuOpen}
-          >
-            <ChevronDown
-              className={`h-4 w-4 ml-6 transition-transform duration-200 ${menuOpen ? "-translate-y-0.5 rotate-180" : "rotate-0"
-                }`}
-            />
-          </button>
+//         <div className="relative" ref={menuRef}>
+//           <button
+//             onClick={() => setMenuOpen((v) => !v)}
+//             className="grid h-10 w-10 place-items-center rounded-xl hover:bg-gray-50"
+//             aria-haspopup="menu"
+//             aria-expanded={menuOpen}
+//           >
+//             <ChevronDown
+//               className={`h-4 w-4 ml-6 transition-transform duration-200 ${menuOpen ? "-translate-y-0.5 rotate-180" : "rotate-0"
+//                 }`}
+//             />
+//           </button>
 
-          {menuOpen && (
-            <div
-              role="menu"
-              className="absolute right-0 mt-2 w-48 overflow-hidden rounded-lg border bg-white shadow-lg"
-            >
-              <button
-                role="menuitem"
-                className="flex w-full items-center gap-2 px-4 py-2 text-sm hover:bg-gray-100"
-                onClick={() => {
-                  setMenuOpen(false);
+//           {menuOpen && (
+//             <div
+//               role="menu"
+//               className="absolute right-0 mt-2 w-48 overflow-hidden rounded-lg border bg-white shadow-lg"
+//             >
+//               <button
+//                 role="menuitem"
+//                 className="flex w-full items-center gap-2 px-4 py-2 text-sm hover:bg-gray-100"
+//                 onClick={() => {
+//                   setMenuOpen(false);
 
-                  // navigate('/change-password')
-                }}
-              >
-                <Lock className="h-4 w-4" />
-                Change Password
-              </button>
+//                   // navigate('/change-password')
+//                 }}
+//               >
+//                 <Lock className="h-4 w-4" />
+//                 Change Password
+//               </button>
 
-              <button
-                role="menuitem"
-                className="flex w-full items-center gap-2 px-4 py-2 text-sm hover:bg-gray-100"
-                onClick={() => {
-                  setMenuOpen(false);
+//               <button
+//                 role="menuitem"
+//                 className="flex w-full items-center gap-2 px-4 py-2 text-sm hover:bg-gray-100"
+//                 onClick={() => {
+//                   setMenuOpen(false);
 
-                }}
-              >
-                <Settings className="h-4 w-4" /> Settings
-              </button>
+//                 }}
+//               >
+//                 <Settings className="h-4 w-4" /> Settings
+//               </button>
 
-              <button
-                role="menuitem"
-                className="flex w-full items-center gap-2 px-4 py-2 text-sm text-red-600 hover:bg-gray-100"
-                onClick={() => {
-                  setMenuOpen(false);
+//               <button
+//                 role="menuitem"
+//                 className="flex w-full items-center gap-2 px-4 py-2 text-sm text-red-600 hover:bg-gray-100"
+//                 onClick={() => {
+//                   setMenuOpen(false);
 
-                }}
-              >
-                <LogOut className="h-4 w-4" /> Log out
-              </button>
-            </div>
-          )}
-        </div>
-      </div>
+//                 }}
+//               >
+//                 <LogOut className="h-4 w-4" /> Log out
+//               </button>
+//             </div>
+//           )}
+//         </div>
+//       </div>
 
-    </div>
-  )
-}
-  ;
+//     </div>
+//   )
+// }
 
 // ----- The page proper -----
 const UserPage: React.FC = () => {
@@ -342,7 +343,14 @@ const UserPage: React.FC = () => {
     <div className="flex min-h-screen bg-gray-50 text-gray-900">
       {/* <Sidebar /> */}
       <div className="flex-1">
-        <Topbar />
+        <Topbar
+          title="User"
+          userName="Imran Hasan"
+          icon={<UserCircle2 />}
+          onSettings={() => { }}
+          onChangePassword={() => { }}
+          onLogout={() => { }}
+        />
 
         <main className="mx-auto w-full max-w-[1400px] px-4 py-6 md:px-6">
           {/* Filters row */}

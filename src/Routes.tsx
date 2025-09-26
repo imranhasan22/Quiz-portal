@@ -7,7 +7,7 @@ import Loginpage from './components/LoginPage';
 import DashboardLayout from './components/DashboardLayout'; // Import the new layout component
 import DashboardPage from './components/DashboardPage';
 import UserPage from './components/UserPage';
-import Question from './components/Question';
+import Question from './components/QuestionPage';
 import Quiz from './components/Quiz';
 
 const AppRoutes: React.FC = () => {
