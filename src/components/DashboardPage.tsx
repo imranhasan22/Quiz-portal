@@ -1,7 +1,5 @@
 import React from "react";
 import { useState, useRef } from "react";
-// import img from "../assets/loginpageImage/Vector.png";
-// import { Link } from "react-router-dom";
 import Topbar from "./Topbar";
 
 import { BarChart, Bar, XAxis, YAxis, Tooltip, ResponsiveContainer, Legend } from "recharts";
@@ -140,7 +138,7 @@ const Banner: React.FC = () => (
   </div>
 );
 
-const ChartCard: React.FC<{ data: { name: string; pass: number; fail: number }[] }> = ({ data }) => (
+const ChartCard: React.FC<{ data: { name: string;fail: number;pass: number; }[] }> = ({ data }) => (
   <div className="rounded-2xl border bg-white p-4 md:p-6">
     <div className="mb-4 flex flex-col items-start justify-between gap-3 md:flex-row md:items-center">
       <div>

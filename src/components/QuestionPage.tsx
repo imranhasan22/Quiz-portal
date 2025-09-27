@@ -2,6 +2,9 @@ import React, { useMemo, useState } from "react";
 import Topbar from "./Topbar";
 import { Table, TableBody, TableCell, TableHeader, TableRow } from "./ui/table";
 import ConfirmDialog from "./ConfirmDialog";
+import AddQuestionDialog from "./AddQuestionDialog";
+import EditQuestionDialog from "./EditQuestionDialog";
+import ViewQuestionDialog from "./ViewQuestionDialog";
 import {
   Search,
   CalendarDays,
@@ -26,41 +29,41 @@ const SelectField: React.FC<{
 }> = ({ value, onChange, options, placeholder, className, leftIcon }) => {
   const [open, setOpen] = useState(false);
   return (
-   <div className={`relative inline-block ${className ?? ""}`}>
-  {leftIcon && (
-    <span className="pointer-events-none absolute left-3 top-1/2 -translate-y-1/2 text-gray-500">
-      {leftIcon}
-    </span>
-  )}
+    <div className={`relative inline-block ${className ?? ""}`}>
+      {leftIcon && (
+        <span className="pointer-events-none absolute left-3 top-1/2 -translate-y-1/2 text-gray-500">
+          {leftIcon}
+        </span>
+      )}
 
-  <select
-    value={value}
-    onChange={(e) => onChange(e.target.value)}
-    onFocus={() => setOpen(true)}
-    onBlur={() => setOpen(false)}
-    className={[
-      "appearance-none w-full rounded-2xl border border-gray-400 bg-white",
-      "px-4 py-2 text-sm text-gray-900",
-      leftIcon ? "pl-9" : "",   // space for left ,righticon
-                    
-    ].join(" ")}
-  >
-    {placeholder && (
-      <option value="" disabled hidden>
-        {placeholder}
-      </option>
-    )}
-    {placeholder && <option value="">{placeholder}</option>}
-    {options.map((opt) => (
-      <option key={opt} value={opt}>
-        {opt}
-      </option>
-    ))}
-  </select>
-  <ChevronDown
-    className={`pointer-events-none absolute right-3 top-1/2 h-4 w-4 -translate-y-1/2 text-gray-500 transition-transform duration-200 ${open ? "rotate-180" : "rotate-0"}`}
-  />
-</div>
+      <select
+        value={value}
+        onChange={(e) => onChange(e.target.value)}
+        onFocus={() => setOpen(true)}
+        onBlur={() => setOpen(false)}
+        className={[
+          "appearance-none w-full rounded-2xl border border-gray-400 bg-white",
+          "px-4 py-2 text-sm text-gray-900",
+          leftIcon ? "pl-9" : "",   // space for left ,righticon
+
+        ].join(" ")}
+      >
+        {placeholder && (
+          <option value="" disabled hidden>
+            {placeholder}
+          </option>
+        )}
+        {placeholder && <option value="">{placeholder}</option>}
+        {options.map((opt) => (
+          <option key={opt} value={opt}>
+            {opt}
+          </option>
+        ))}
+      </select>
+      <ChevronDown
+        className={`pointer-events-none absolute right-3 top-1/2 h-4 w-4 -translate-y-1/2 text-gray-500 transition-transform duration-200 ${open ? "rotate-180" : "rotate-0"}`}
+      />
+    </div>
 
   );
 };
@@ -139,6 +142,12 @@ const QuestionPage: React.FC = () => {
   const [rowsPerPage, setRowsPerPage] = useState(10);
   // dialogs
   const [deleteRow, setDeleteRow] = useState<QuestionRow | null>(null);
+  const [openCreate, setOpenCreate] = useState(false);
+  const [viewOpen, setViewOpen] = useState(false);
+  const [viewRow, setViewRow] = useState<any | null>(null);
+  const [EditOpen, setEditOpen] = useState(false);
+  const [EditRow, setEditRow] = useState<any | null>(null);
+
 
   // filtered list
   const filtered = useMemo(() => {
@@ -183,7 +192,7 @@ const QuestionPage: React.FC = () => {
         <Topbar
           title="Question"
           userName="Imran Hasan"
-          icon={<CircleQuestionMark/>}
+          icon={<CircleQuestionMark />}
           onSettings={() => { }}
           onChangePassword={() => { }}
           onLogout={() => { }}
@@ -247,7 +256,10 @@ const QuestionPage: React.FC = () => {
               leftIcon={<CalendarDays className="h-4 w-4" />}
             />
 
-            <button className="ml-auto inline-flex items-center gap-2 rounded-xl border border-gray-300 bg-gray-200 px-4 py-2 text-sm font-medium text-gray-900 hover:bg-gray-300">
+            <button
+              className="ml-auto inline-flex items-center gap-2 rounded-xl border border-gray-300 bg-gray-200 px-4 py-2 text-sm font-medium text-gray-900 hover:bg-gray-300"
+              onClick={() => setOpenCreate(true)}
+            >
               <Plus className="h-4 w-4" /> Question Create
             </button>
             <button className="inline-flex items-center gap-2 rounded-xl border border-gray-300 bg-gray-200 px-4 py-2 text-sm font-medium text-gray-900 hover:bg-gray-300">
@@ -306,10 +318,45 @@ const QuestionPage: React.FC = () => {
                     </TableCell>
                     <TableCell>
                       <div className="flex items-center gap-2">
-                        <button className="text-gray-600 hover:text-gray-800" aria-label="View">
+                        <button
+                          className="text-gray-600 hover:text-gray-800"
+                          aria-label="View"
+                          onClick={() => {
+                            setViewRow({
+                              process: r.process,
+                              questionId: r.questionId,
+                              title: r.title,
+                              answerType: r.answerType,
+                              question: r.title,          // or your real question field
+                              description: "Lorem ipsum dolor...", // if available
+                              createdBy: r.createdBy,
+                              createdTime: r.createdTime,
+                              required: r.status === "Active",     // or your real required flag
+                            });
+                            setViewOpen(true);
+                          }}
+                        >
                           <Eye className="h-4 w-4" />
                         </button>
-                        <button className="text-blue-500 hover:text-blue-700" aria-label="Edit">
+
+                        <button
+                          className="text-gray-600 hover:text-gray-800"
+                          aria-label="View"
+                          onClick={() => {
+                            setEditRow({
+                              process: r.process,
+                              questionId: r.questionId,
+                              title: r.title,
+                              answerType: r.answerType,
+                              question: r.title,          // or your real question field
+                              description: "Lorem ipsum dolor...", // if available
+                              createdBy: r.createdBy,
+                              createdTime: r.createdTime,
+                              required: r.status === "Active",     // or your real required flag
+                            });
+                            setEditOpen(true);
+                          }}
+                        >
                           <Pencil className="h-4 w-4" />
                         </button>
                         {/* <button className="text-gray-600 hover:text-gray-800" aria-label="Copy link">
@@ -387,6 +434,33 @@ const QuestionPage: React.FC = () => {
         </main>
       </div>
 
+
+
+      {/* add question */}
+      <AddQuestionDialog
+        open={openCreate}
+        onClose={() => setOpenCreate(false)}
+        onSubmit={(data) => {
+          console.log("New question created:", data);
+          setOpenCreate(false);
+        }}
+      />
+
+      {/* view question */}
+      <ViewQuestionDialog
+        open={viewOpen}
+        onClose={() => { setViewOpen(false); setViewRow(null); }}
+        data={viewRow}
+      />
+
+
+      {/* Edit Question */}
+      <EditQuestionDialog
+        open={EditOpen}
+        onClose={() => { setEditOpen(false); setEditRow(null); }}
+        initialData={EditRow}
+      />
+
       {/* Confirm delete (message only, no removal) */}
       <ConfirmDialog
         open={!!deleteRow}
@@ -400,7 +474,7 @@ const QuestionPage: React.FC = () => {
         confirmText="Delete"
         cancelText="Cancel"
         onConfirm={() => {
-          console.log("Confirm delete (backend will handle):", deleteRow);
+          console.log("Confirm delete:", deleteRow);
           setDeleteRow(null); // only close
         }}
         onClose={() => setDeleteRow(null)}

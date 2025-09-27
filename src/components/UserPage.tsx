@@ -1,6 +1,5 @@
 import React, { useMemo, useState } from "react";
 import AddUserModal from "./AddUserModal";
-import { useRef, useEffect } from "react";
 import Topbar from "./Topbar";
 import EditUserModal from "./EditUserModal";
 import ConfirmDialog from "./ConfirmDialog";
