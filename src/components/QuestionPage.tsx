@@ -359,9 +359,7 @@ const QuestionPage: React.FC = () => {
                         >
                           <Pencil className="h-4 w-4" />
                         </button>
-                        {/* <button className="text-gray-600 hover:text-gray-800" aria-label="Copy link">
-                          <Link2 className="h-4 w-4" />
-                        </button> */}
+                     
                         <button
                           className="text-red-500 hover:text-red-700"
                           aria-label="Delete"
@@ -458,13 +456,15 @@ const QuestionPage: React.FC = () => {
       <EditQuestionDialog
         open={EditOpen}
         onClose={() => { setEditOpen(false); setEditRow(null); }}
+        onSubmit={(data)=>{
+          console.log("edited Question",data);
+        }}
         initialData={EditRow}
       />
 
-      {/* Confirm delete (message only, no removal) */}
+      {/* Confirm delete  */}
       <ConfirmDialog
         open={!!deleteRow}
-        // reusing the dialog; just show message & close
         title="Delete question?"
         message={
           deleteRow
@@ -474,7 +474,7 @@ const QuestionPage: React.FC = () => {
         confirmText="Delete"
         cancelText="Cancel"
         onConfirm={() => {
-          console.log("Confirm delete:", deleteRow);
+          console.log("User Confirm delete:", deleteRow);
           setDeleteRow(null); // only close
         }}
         onClose={() => setDeleteRow(null)}

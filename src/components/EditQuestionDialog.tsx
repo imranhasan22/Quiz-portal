@@ -87,7 +87,7 @@ export default function EditQuestionDialog({
               className="rounded p-1 text-gray-500 hover:bg-gray-100"
               aria-label="Close"
             >
-              ✕
+              ×
             </button>
           </div>
 

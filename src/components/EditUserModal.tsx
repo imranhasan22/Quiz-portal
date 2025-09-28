@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { ChevronDown, CheckCircle2 } from "lucide-react";
+import { ChevronDown, CheckCircle2, XCircle } from "lucide-react";
 
 // Define the UserRow type
 type UserRow = {
@@ -22,9 +22,10 @@ type EditUserModalProps = {
   user: UserRow | null;
 };
 
-const EditUserModal: React.FC<EditUserModalProps> = ({ open, onClose, user }) => {
+const EditUserModal: React.FC<EditUserModalProps> = ({ open, onClose, onSubmit, user }) => {
   const [form, setForm] = useState<UserRow | null>(null);
   const [showSuccess, setShowSuccess] = useState(false);
+  const [showFailure, setShowFailure] = useState(false);
 
   // Close modal with ESC key
   useEffect(() => {
@@ -47,11 +48,27 @@ const EditUserModal: React.FC<EditUserModalProps> = ({ open, onClose, user }) =>
     setForm((prev) => (prev ? { ...prev, [name]: value } : prev));
   };
 
+  const handleSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    
+    if (!form?.process || !form?.name || !form?.employeeId || !form?.phone || !form?.status) {
+      setShowFailure(true);
+       return
+    }
+    else {
+      onSubmit?.(form)
+      setShowSuccess(true);
+    }
+ 
+  };
+
 
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center">
-      <div className="absolute inset-0 bg-black/40" onClick={onClose} />
-      <div className="relative z-10 w-[90vw] max-w-[720px] rounded-xl border bg-white shadow-2xl transform transition-all">
+      <div className="absolute inset-0 bg-black/40" />
+      <div className="relative z-10 w-[90vw] max-w-[720px] rounded-xl border bg-white shadow-2xl transform transition-all"
+        onClick={(e) => e.stopPropagation()} // Prevent closing when clicking outiside the modal
+        >
         {/* Modal Header */}
         <div className="flex items-center justify-between border-b px-6 py-4">
           <h3 className="text-lg font-semibold text-gray-700">Edit User</h3>
@@ -61,7 +78,7 @@ const EditUserModal: React.FC<EditUserModalProps> = ({ open, onClose, user }) =>
         </div>
 
         {/* Modal Body */}
-        <div className="px-6 py-5 space-y-6">
+        <form onSubmit={handleSubmit} className="px-6 py-5 space-y-6">
           <div className="grid grid-cols-1 gap-6 md:grid-cols-2">
             {/* Employee Name */}
             <div>
@@ -187,19 +204,52 @@ const EditUserModal: React.FC<EditUserModalProps> = ({ open, onClose, user }) =>
               />
             </div>
           </div>
-        </div>
 
-        {/* Footer */}
-        <div className="px-6 py-4">
-          <button
-            onClick={() =>
-               setShowSuccess(true)}
-            className="w-full rounded-md bg-blue-600 px-4 py-2 text-sm font-medium text-white hover:bg-blue-700 shadow-md hover:shadow-lg transition duration-200"
-          >
-            Save
-          </button>
-        </div>
+          {/* Footer */}
+          <div className="px-6 py-4">
+            <button
+              type="submit"
+              className="w-full rounded-md bg-blue-600 px-4 py-2 text-sm font-medium text-white hover:bg-blue-700 shadow-md hover:shadow-lg transition duration-200"
+            >
+              Save
+            </button>
+          </div>
+        </form>
       </div>
+
+      {/* Failure popup */}
+      {showFailure && (
+        <div className="fixed inset-0 z-[60] flex items-center justify-center">
+          {/* overlay */}
+          <div className="absolute inset-0 bg-black/50 backdrop-blur-s animate-fadeIn" />
+
+          {/* Failure card */}
+          <div className="relative z-10 w-[320px] rounded-2xl bg-white p-6 shadow-2xl animate-scaleIn">
+            {/* icon */}
+            <div className="mb-4 flex items-center justify-center">
+              <div className="grid h-14 w-14 place-items-center rounded-full bg-red-100 shadow-inner">
+                <XCircle className="h-8 w-8 text-red-600" />
+              </div>
+            </div>
+
+            {/* text */}
+            <p className="mb-6 text-center text-lg font-semibold text-gray-800">
+              ❌ Failed to Edit <br /> new User.
+            </p>
+
+            {/* button */}
+            <button
+              onClick={() => {
+                setShowFailure(false);
+                onClose();
+              }}
+              className="w-full rounded-lg bg-gradient-to-r from-red-500 to-rose-600 px-4 py-2 text-sm font-medium text-white shadow-md transition-all duration-200 hover:scale-[1.02] hover:shadow-lg focus:outline-none focus:ring-2 focus:ring-red-400 focus:ring-offset-2"
+            >
+              Close
+            </button>
+          </div>
+        </div>
+      )}
 
       {/* Success pop-up */}
       {showSuccess && (

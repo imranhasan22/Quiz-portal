@@ -45,9 +45,9 @@ const Sidebar: React.FC = () => (
       <NavItem icon={<Users className="h-5 w-5" />} label="User" to="/user" />
       <NavItem icon={<ClipboardList className="h-5 w-5" />} label="Question" to="/questions" />
       <NavItem icon={<FileText className="h-5 w-5" />} label="Quiz" to="/quiz" />
-      <NavItem icon={<FileBarChart className="h-5 w-5" />} label="Result" to="/results" />
-      <NavItem icon={<FileBarChart className="h-5 w-5" />} label="Report" to="/reports" />
-      <NavItem icon={<Settings className="h-5 w-5" />} label="Settings" to="/settings" />
+      <NavItem icon={<FileBarChart className="h-5 w-5" />} label="Result" to="/result" />
+      <NavItem icon={<FileBarChart className="h-5 w-5" />} label="Report" to="/report" />
+      <NavItem icon={<Settings className="h-5 w-5" />} label="Settings" to="/setting" />
       {/* ... other NavItems */}
     </nav>
   </aside>

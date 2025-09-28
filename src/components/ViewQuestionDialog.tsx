@@ -1,4 +1,10 @@
-type ViewQuestion = {
+// import { useEffect, useState } from "react";
+// import { ChevronDown, CheckCircle2, XCircle } from "lucide-react";
+
+// const PROCESS_OPTIONS = ["Nagad", "Bexcom", "SBL", "LG", "BTCL", "UML", "Linde", "Coca-Cola", "CTGWASA"];
+// const ANSWER_TYPES = ["Multiple", "Dropdown", "Short Answer", "Paragraph", "Checkbox", "File Upload"];
+
+export type QuestionData = {
   process: string;
   questionId: string;
   title: string;
@@ -6,7 +12,7 @@ type ViewQuestion = {
   question: string;
   description?: string;
   createdBy: string;
-  createdTime: string; // e.g. "10 Sep, 24 at 10:41 AM"
+  createdTime: string;
   required?: boolean;
 };
 
@@ -17,7 +23,7 @@ export default function ViewQuestionDialog({
 }: {
   open: boolean;
   onClose: () => void;
-  data: ViewQuestion | null;
+  data: QuestionData | null;
 }) {
   if (!open || !data) return null;
 
@@ -26,22 +32,23 @@ export default function ViewQuestionDialog({
       {/* Backdrop */}
       <div className="absolute inset-0 bg-black/30" onClick={onClose} />
 
-      {/* Panel */}
+      {/* Modal Panel */}
       <div className="absolute inset-0 grid place-items-center p-4">
-        <div className="w-full max-w-3xl rounded-2xl bg-white shadow-2xl">
+        <form className="w-full max-w-3xl rounded-2xl bg-white shadow-2xl">
           {/* Header */}
           <div className="flex items-center justify-between border-b px-6 py-4">
             <h2 className="text-lg font-semibold">View Question</h2>
             <button
+              type="button"
               onClick={onClose}
               className="rounded p-1 text-gray-500 hover:bg-gray-100"
               aria-label="Close"
             >
-              ✕
+              ×
             </button>
           </div>
 
-          {/* Body */}
+          {/* Modal Body */}
           <div className="space-y-5 px-6 py-5">
             {/* Row 1: Process + Question ID */}
             <div className="grid gap-4 sm:grid-cols-2">
@@ -58,7 +65,7 @@ export default function ViewQuestionDialog({
                   >
                     <option>{data.process}</option>
                   </select>
-                
+                  
                 </div>
               </div>
 
@@ -168,7 +175,7 @@ export default function ViewQuestionDialog({
 
           {/* Footer spacing to match mock */}
           <div className="px-6 pb-5" />
-        </div>
+        </form>
       </div>
     </div>
   );

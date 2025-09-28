@@ -17,6 +17,24 @@ const AddUserModal: React.FC<AddUserModalProps> = ({ open, onClose, onSubmit }) 
         return () => document.removeEventListener("keydown", onKey);
     }, [open, onClose]);
 
+    // Reset form and state when modal opens
+    useEffect(() => {
+        if (open) {
+            setForm({
+                employeeName: "",
+                employeeId: "",
+                phone: "",
+                process: "",
+                role: "",
+                status: "",
+                password: "",
+                confirmPassword: "",
+            });
+            setShowSuccess(false);
+            setShowFailure(false);
+        }
+    }, [open]);
+
     // State for success and failure
     const [showSuccess, setShowSuccess] = useState(false);
     const [showFailure, setShowFailure] = useState(false);
@@ -27,7 +45,7 @@ const AddUserModal: React.FC<AddUserModalProps> = ({ open, onClose, onSubmit }) 
         employeeId: "",
         phone: "",
         process: "",
-        role: "", 
+        role: "",
         status: "",
         password: "",
         confirmPassword: "",
@@ -41,14 +59,25 @@ const AddUserModal: React.FC<AddUserModalProps> = ({ open, onClose, onSubmit }) 
 
     if (!open) return null;
 
+    const handleSubmit = (e: React.FormEvent) => {
+        e.preventDefault(); // Prevent default form submission behavior
+        if (!form.employeeName || !form.employeeId) {
+            setShowFailure(true);
+        } else {
+            onSubmit?.(form);
+            setShowSuccess(true);
+        }
+    };
+
     return (
         <div className="fixed inset-0 z-50 flex items-center justify-center">
             {/* overlay */}
-            <div className="absolute inset-0 bg-black/40" onClick={onClose} />
+            <div className="absolute inset-0 bg-black/40" />
 
             <div
                 ref={dialogRef}
                 className="relative z-10 w-[90vw] max-w-[720px] rounded-xl border bg-white shadow-2xl transform transition-all"
+                 onClick={(e) => e.stopPropagation()} // Prevent closing when clicking outside the modal
             >
                 {/* Header */}
                 <div className="flex items-center justify-between border-b px-6 py-4">
@@ -62,7 +91,7 @@ const AddUserModal: React.FC<AddUserModalProps> = ({ open, onClose, onSubmit }) 
                 </div>
 
                 {/* Body */}
-                <div className="px-6 py-5 space-y-6">
+                <form onSubmit={handleSubmit} className="px-6 py-5 space-y-6">
                     <div className="grid grid-cols-1 gap-6 md:grid-cols-2">
                         {/* Employee Name */}
                         <div>
@@ -174,25 +203,17 @@ const AddUserModal: React.FC<AddUserModalProps> = ({ open, onClose, onSubmit }) 
                             />
                         </div>
                     </div>
-                </div>
 
-                {/* Footer */}
-                <div className="px-6 py-4">
-                    <button
-                        onClick={() => {
-                            // Simulate validation for failure
-                            if (!form.employeeName || !form.employeeId) {
-                                setShowFailure(true);
-                            } else {
-                                onSubmit?.(form);
-                                setShowSuccess(true);
-                            }
-                        }}
-                        className="w-full rounded-md bg-blue-600 px-4 py-2 text-sm font-medium text-white hover:bg-blue-700 shadow-md hover:shadow-lg transition duration-200"
-                    >
-                        Submit
-                    </button>
-                </div>
+                    {/* Footer */}
+                    <div className="px-6 py-4">
+                        <button
+                            type="submit" // Handle form submission via the form tag
+                            className="w-full rounded-md bg-blue-600 px-4 py-2 text-sm font-medium text-white hover:bg-blue-700 shadow-md hover:shadow-lg transition duration-200"
+                        >
+                            Submit
+                        </button>
+                    </div>
+                </form>
             </div>
 
             {/* Failure popup */}

@@ -5,25 +5,16 @@ import EditUserModal from "./EditUserModal";
 import ConfirmDialog from "./ConfirmDialog";
 import { TableBody, Table, TableCell, TableHeader, TableRow } from "./ui/table";
 import {
-  LayoutDashboard,
-  Users,
-  ClipboardList,
-  FileBarChart,
-  LogOut,
-  Lock,
-  Bell,
-  Settings,
+
   ChevronDown,
   CalendarDays,
   Search,
-  Plus,
   UserPlus,
   Upload,
   Pencil,
   Trash2,
   UserCircle2,
-  FileText,
-  Rows,
+  
 } from "lucide-react";
 
 const SelectField: React.FC<{
@@ -277,10 +268,7 @@ const UserPage: React.FC = () => {
   };
 
 
-  const handleSaveEditUser = (updatedUser: UserRow) => {
-    console.log("Updated User:", updatedUser);
-    setEditUser(null); // Close the modal after saving
-  };
+
 
 
 
@@ -583,7 +571,10 @@ const UserPage: React.FC = () => {
         open={!!editUser} // Show modal if there is an editUser
         user={editUser} // Pass the selected user to edit
         onClose={() => setEditUser(null)} // Close the modal
-        onSubmit={handleSaveEditUser} // Handle the submit action
+        onSubmit={(data) => {
+          console.log("update user:", data);
+        
+        }} // Handle the submit action
       />
 
 

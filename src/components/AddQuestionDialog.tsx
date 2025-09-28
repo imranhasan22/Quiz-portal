@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from "react";
-
 import { ChevronDown, Trash2, FileImage, Copy, MoreVertical, CheckCircle2, XCircle } from "lucide-react";
 
 type Props = {
@@ -24,7 +23,6 @@ const AddQuestionDialog: React.FC<Props> = ({ open, onClose, onSubmit }) => {
   const [options, setOptions] = useState<string[]>(["Option 1"]);
   const [required, setRequired] = useState(false);
   const [openSelect, setOpenSelect] = useState(false);
-
 
   // State for success and failure
   const [showSuccess, setShowSuccess] = useState(false);
@@ -57,15 +55,15 @@ const AddQuestionDialog: React.FC<Props> = ({ open, onClose, onSubmit }) => {
     onClose();
   };
 
-
   // submit handler: সাবমিট ডাটা পাঠাও
-  const handleSubmit = () => {
-    // validatation
+  const handleSubmit = (e: React.FormEvent) => {
+    e.preventDefault(); // Prevent default form submission behavior
+
+    // validation
     if (!processName.trim() || !questionTitle.trim() || !questionText.trim()) {
       setShowFailure(true);
-      return
+      return;
     }
-
 
     onSubmit({
       processName,
@@ -76,12 +74,8 @@ const AddQuestionDialog: React.FC<Props> = ({ open, onClose, onSubmit }) => {
       required,
     });
 
-  setShowSuccess(true);
-
+    setShowSuccess(true);
   };
-
-  // process
-  //  const PROCESS_OPTIONS = ["Nagad","Bexcom","SBL","LG","BTCL","UML","Linde","Coca-Cola","CTGWASA"];
 
   return (
     <div className="fixed inset-0 z-50">
@@ -99,12 +93,12 @@ const AddQuestionDialog: React.FC<Props> = ({ open, onClose, onSubmit }) => {
               className="rounded p-1 text-gray-500 hover:bg-gray-100"
               aria-label="Close"
             >
-              ✕
+              ×
             </button>
           </div>
 
           {/* body */}
-          <div className="px-6 py-5 space-y-5">
+          <form onSubmit={handleSubmit} className="px-6 py-5 space-y-5">
             {/* Process + Title */}
             <div className="grid gap-4 sm:grid-cols-2">
               <div>
@@ -114,28 +108,7 @@ const AddQuestionDialog: React.FC<Props> = ({ open, onClose, onSubmit }) => {
                   onChange={(e) => setProcessName(e.target.value)}
                   placeholder="Enter Process Name"
                   className="w-full rounded-xl border border-gray-300 px-4 py-2 text-sm outline-none"
-
                 />
-
-
-                {/* for select process name/optonal */}
-
-                {/* <div className="relative">
-                    <select
-                        value={processName}
-                        onChange={(e) => setProcessName(e.target.value)}
-                        className="appearance-none w-full rounded-xl border border-gray-300 bg-white px-4 py-2 pr-9 text-sm text-gray-900 outline-none"
-                    >
-                        <option value="">Select Process</option>
-                        {PROCESS_OPTIONS.map((p) => (
-                        <option key={p} value={p}>{p}</option>
-                        ))}
-                    </select>
-                    <ChevronDown className="pointer-events-none absolute right-3 top-1/2 h-4 w-4 -translate-y-1/2 text-current" />
-                    </div> */}
-
-
-
               </div>
               <div>
                 <label className="mb-2 block text-sm font-medium text-gray-800">Question Title</label>
@@ -278,7 +251,6 @@ const AddQuestionDialog: React.FC<Props> = ({ open, onClose, onSubmit }) => {
                     <span className="absolute left-0.5 top-0.5 h-4 w-4 rounded-full bg-white shadow transition-transform peer-checked:translate-x-4" />
                   </label>
                 </div>
-
               </div>
 
               <button
@@ -294,14 +266,12 @@ const AddQuestionDialog: React.FC<Props> = ({ open, onClose, onSubmit }) => {
             {/* Submit */}
             <button
               className="w-full rounded-md bg-blue-600 px-4 py-2 text-sm font-medium text-white hover:bg-blue-700 shadow-md hover:shadow-lg transition duration-200"
-              onClick={handleSubmit}
+              type="submit" // Use form submit
             >
-
               Submit
             </button>
-          </div>
+          </form>
         </div>
-
 
         {/* Failure popup */}
         {showFailure && (
@@ -336,7 +306,6 @@ const AddQuestionDialog: React.FC<Props> = ({ open, onClose, onSubmit }) => {
             </div>
           </div>
         )}
-
 
         {/* show success popup */}
         {showSuccess && (
