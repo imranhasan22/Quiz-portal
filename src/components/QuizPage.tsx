@@ -1,13 +1,13 @@
 import React, { useMemo, useState } from "react";
 import { Table, TableBody, TableCell, TableHeader, TableRow } from "./ui/table";
 import ConfirmDialog from "./ConfirmDialog";
-import AddQuestionDialog from "./AddQuestionDialog";
-import EditQuestionDialog from "./EditQuestionDialog";
-import ViewQuestionDialog from "./ViewQuestionDialog";
+import CreateQuizModal from "./CreateQuizModal";
+
 import {
   Search,
   CalendarDays,
   Eye,
+  X,
   Pencil,
   Trash2,
   FileDown,
@@ -128,6 +128,16 @@ const ALL_ROWS = makeRows();
 const QuestionPage: React.FC = () => {
   // data/state
   const [rows] = useState<QuestionRow[]>(ALL_ROWS);
+  const availableForModal = useMemo(
+    () =>
+      rows.map((r) => ({
+        questionId: r.questionId,
+        title: r.title,
+        answerType: r.answerType,
+      })),
+    [rows]
+  );
+
   // filters
   const [q, setQ] = useState("");
   const [process, setProcess] = useState("");
@@ -140,12 +150,12 @@ const QuestionPage: React.FC = () => {
   const [rowsPerPage, setRowsPerPage] = useState(10);
   // dialogs
   const [deleteRow, setDeleteRow] = useState<QuestionRow | null>(null);
+
   const [openCreate, setOpenCreate] = useState(false);
   const [viewOpen, setViewOpen] = useState(false);
   const [viewRow, setViewRow] = useState<any | null>(null);
   const [EditOpen, setEditOpen] = useState(false);
   const [EditRow, setEditRow] = useState<any | null>(null);
-
 
   // filtered list
   const filtered = useMemo(() => {
@@ -283,8 +293,8 @@ const QuestionPage: React.FC = () => {
                   </TableCell>
                   <TableCell>SL</TableCell>
                   <TableCell>Process Name</TableCell>
-                  <TableCell>Question ID</TableCell>
-                  <TableCell>Question Title</TableCell>
+                  <TableCell>Quiz ID</TableCell>
+                  <TableCell>Quiz Title</TableCell>
                   <TableCell>Answer Type</TableCell>
                   <TableCell>Created by</TableCell>
                   <TableCell>Created Time</TableCell>
@@ -325,7 +335,7 @@ const QuestionPage: React.FC = () => {
                               questionId: r.questionId,
                               title: r.title,
                               answerType: r.answerType,
-                              question: r.title,          // or your real question field
+                              question: r.title,          // or your real quiz field
                               description: "Lorem ipsum dolor...", // if available
                               createdBy: r.createdBy,
                               createdTime: r.createdTime,
@@ -346,7 +356,7 @@ const QuestionPage: React.FC = () => {
                               questionId: r.questionId,
                               title: r.title,
                               answerType: r.answerType,
-                              question: r.title,          // or your real question field
+                              question: r.title,          // or your real quiz field
                               description: "Lorem ipsum dolor...", // if available
                               createdBy: r.createdBy,
                               createdTime: r.createdTime,
@@ -357,7 +367,7 @@ const QuestionPage: React.FC = () => {
                         >
                           <Pencil className="h-4 w-4" />
                         </button>
-                     
+
                         <button
                           className="text-red-500 hover:text-red-700"
                           aria-label="Delete"
@@ -373,7 +383,7 @@ const QuestionPage: React.FC = () => {
                 {pageRows.length === 0 && (
                   <TableRow>
                     <TableCell colSpan={10} className="text-center text-sm text-gray-500">
-                      No questions found
+                      No quiz found
                     </TableCell>
                   </TableRow>
                 )}
@@ -431,34 +441,18 @@ const QuestionPage: React.FC = () => {
       </div>
 
 
-
-      {/* add question */}
-      <AddQuestionDialog
+      <CreateQuizModal
         open={openCreate}
         onClose={() => setOpenCreate(false)}
-        onSubmit={(data) => {
-          console.log("New question created:", data);
+        onSave={(payload) => {
+          // TODO: call your API here
+          console.log("Create quiz payload:", payload);
           setOpenCreate(false);
         }}
+        processes={PROCESSES as unknown as string[]}
+        allQuestions={availableForModal}
       />
 
-      {/* view question */}
-      <ViewQuestionDialog
-        open={viewOpen}
-        onClose={() => { setViewOpen(false); setViewRow(null); }}
-        data={viewRow}
-      />
-
-
-      {/* Edit Question */}
-      <EditQuestionDialog
-        open={EditOpen}
-        onClose={() => { setEditOpen(false); setEditRow(null); }}
-        onSubmit={(data)=>{
-          console.log("edited Question",data);
-        }}
-        initialData={EditRow}
-      />
 
       {/* Confirm delete  */}
       <ConfirmDialog

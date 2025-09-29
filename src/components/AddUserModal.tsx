@@ -72,6 +72,7 @@ const AddUserModal: React.FC<AddUserModalProps> = ({ open, onClose, onSubmit }) 
     return (
         <div className="fixed inset-0 z-50 flex items-center justify-center">
             {/* overlay */}
+             {/*  onClick={onClose} for outside click */}
             <div className="absolute inset-0 bg-black/40" />
 
             <div
