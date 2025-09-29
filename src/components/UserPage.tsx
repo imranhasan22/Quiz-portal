@@ -330,14 +330,14 @@ const UserPage: React.FC = () => {
     <div className="flex min-h-screen bg-gray-50 text-gray-900">
       {/* <Sidebar /> */}
       <div className="flex-1">
-        <Topbar
+        {/* <Topbar
           title="User"
           userName="Imran Hasan"
           icon={<UserCircle2 />}
           onSettings={() => { }}
           onChangePassword={() => { }}
           onLogout={() => { }}
-        />
+        /> */}
 
         <main className="mx-auto w-full max-w-[1400px] px-4 py-6 md:px-6">
           {/* Filters row */}

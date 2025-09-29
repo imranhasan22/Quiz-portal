@@ -205,7 +205,7 @@ const AddUserModal: React.FC<AddUserModalProps> = ({ open, onClose, onSubmit }) 
                     </div>
 
                     {/* Footer */}
-                    <div className="px-6 py-4">
+                    <div className="py-4">
                         <button
                             type="submit" // Handle form submission via the form tag
                             className="w-full rounded-md bg-blue-600 px-4 py-2 text-sm font-medium text-white hover:bg-blue-700 shadow-md hover:shadow-lg transition duration-200"

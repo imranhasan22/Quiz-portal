@@ -207,7 +207,7 @@ const Content: React.FC = () => {
 
   return (
     <div className="flex-1 bg-gray-50">
-      {/* topbar calls here */}
+      {/* topbar calls here
         <Topbar
           title= "Quiz Portal Admin Dashboard"
           userName="Imran Hasan"
@@ -215,7 +215,7 @@ const Content: React.FC = () => {
           onChangePassword={() => { }}
           onLogout={() => { }}
           icon={<LayoutDashboard />}
-        />
+        /> */}
        
 
       <main className="mx-auto w-full max-w-[1400px] px-4 py-6 md:px-6">

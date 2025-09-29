@@ -188,7 +188,7 @@ const QuestionPage: React.FC = () => {
     <div className="flex min-h-screen bg-gray-50 text-gray-900">
       <div className="flex-1">
 
-        {/* topbar call here  */}
+        {/* topbar call here 
         <Topbar
           title="Question"
           userName="Imran Hasan"
@@ -196,7 +196,7 @@ const QuestionPage: React.FC = () => {
           onSettings={() => { }}
           onChangePassword={() => { }}
           onLogout={() => { }}
-        />
+        /> */}
         <main className="mx-auto w-full max-w-[1400px] px-4 py-6 md:px-6">
           {/* Filters row */}
           <div className="flex flex-wrap items-center gap-3">

@@ -1,6 +1,5 @@
 import type React from "react";
 import { useState } from "react";
-
 import img4 from "../assets/loginpageImage/Vector.png"; 
 import img8 from "../assets/loginpageImage/ride-side-image.png";
 
