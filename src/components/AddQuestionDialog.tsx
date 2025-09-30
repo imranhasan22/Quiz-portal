@@ -84,7 +84,7 @@ const AddQuestionDialog: React.FC<Props> = ({ open, onClose, onSubmit }) => {
 
       {/* modal panel */}
       <div className="absolute inset-0 grid place-items-center p-4">
-        <div className="w-full max-w-3xl rounded-2xl bg-white shadow-2xl">
+        <div className="w-full max-w-xl rounded-xl bg-white shadow-2xl">
           {/* header */}
           <div className="flex items-center justify-between border-b px-6 py-4">
             <h2 className="text-lg font-semibold">Add New Question</h2>
@@ -263,7 +263,7 @@ const AddQuestionDialog: React.FC<Props> = ({ open, onClose, onSubmit }) => {
               </button>
             </div>
 
-            {/* Submit */}
+            
             <button
               className="w-full rounded-md bg-blue-600 px-4 py-2 text-sm font-medium text-white hover:bg-blue-700 shadow-md hover:shadow-lg transition duration-200"
               type="submit" // Use form submit

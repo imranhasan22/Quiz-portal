@@ -77,7 +77,7 @@ const AddUserModal: React.FC<AddUserModalProps> = ({ open, onClose, onSubmit }) 
 
             <div
                 ref={dialogRef}
-                className="relative z-10 w-[90vw] max-w-[720px] rounded-xl border bg-white shadow-2xl transform transition-all"
+                className="relative z-10 w-[90vw] max-w-[600px] rounded-xl border bg-white shadow-2xl transform transition-all"
                  onClick={(e) => e.stopPropagation()} // Prevent closing when clicking outside the modal
             >
                 {/* Header */}

@@ -1,22 +1,22 @@
+// QuizPage.tsx
 import React, { useMemo, useState } from "react";
 import { Table, TableBody, TableCell, TableHeader, TableRow } from "./ui/table";
 import ConfirmDialog from "./ConfirmDialog";
 import CreateQuizModal from "./CreateQuizModal";
-
+import ViewQuizModal from "./ViewQuizModal";   // <- should expect quizId/quizTitle
+import EditQuizModal from "./EditQuizModal";
 import {
   Search,
   CalendarDays,
   Eye,
-  X,
   Pencil,
   Trash2,
   FileDown,
   Plus,
   ChevronDown,
-  CircleQuestionMark
 } from "lucide-react";
 
-/* ---------- Shared tiny UI ---------- */
+/* ---------- Tiny shared select ---------- */
 const SelectField: React.FC<{
   value: string;
   onChange: (v: string) => void;
@@ -33,7 +33,6 @@ const SelectField: React.FC<{
           {leftIcon}
         </span>
       )}
-
       <select
         value={value}
         onChange={(e) => onChange(e.target.value)}
@@ -42,8 +41,7 @@ const SelectField: React.FC<{
         className={[
           "appearance-none w-full rounded-2xl border border-gray-400 bg-white",
           "px-4 py-2 text-sm text-gray-900",
-          leftIcon ? "pl-9" : "",   // space for left ,righticon
-
+          leftIcon ? "pl-9" : "",
         ].join(" ")}
       >
         {placeholder && (
@@ -62,17 +60,16 @@ const SelectField: React.FC<{
         className={`pointer-events-none absolute right-3 top-1/2 h-4 w-4 -translate-y-1/2 text-gray-500 transition-transform duration-200 ${open ? "rotate-180" : "rotate-0"}`}
       />
     </div>
-
   );
 };
 
 const StatusPill: React.FC<{ value: "Active" | "Inactive" }> = ({ value }) => {
-  const isActive = value === "Active";
+  const active = value === "Active";
   return (
     <span
       className={[
         "inline-flex items-center rounded-full px-2 py-0.5 text-xs font-medium",
-        isActive
+        active
           ? "bg-green-50 text-green-700 ring-1 ring-green-200"
           : "bg-red-50 text-red-700 ring-1 ring-red-200",
       ].join(" ")}
@@ -83,12 +80,12 @@ const StatusPill: React.FC<{ value: "Active" | "Inactive" }> = ({ value }) => {
 };
 
 /* ---------- Types & mock data ---------- */
-type QuestionRow = {
+type Row = {
   id: number;
   sl: string;
   process: string;
-  questionId: string;
-  title: string;
+  quizId: string;
+  quizTitle: string;
   answerType: string;
   createdBy: string;
   createdTime: string;
@@ -99,7 +96,7 @@ const PROCESSES = ["Nagad", "Bexcom", "SBL", "LG", "BTCL", "UML", "Linde", "Coca
 const CREATED_BY = ["Admin", "Editor", "Moderator"];
 const ANSWER_TYPES = ["Dropdown", "Multiple", "Short Answer", "Paragraph", "Checkbox", "File upload"];
 
-const makeRows = (n = 97): QuestionRow[] =>
+const makeRows = (n = 97): Row[] =>
   Array.from({ length: n }, (_, i) => {
     const proc = PROCESSES[i % PROCESSES.length];
     const ans = ANSWER_TYPES[i % ANSWER_TYPES.length];
@@ -108,8 +105,8 @@ const makeRows = (n = 97): QuestionRow[] =>
       id: i + 1,
       sl: (i + 1).toString().padStart(2, "0"),
       process: proc,
-      questionId: (15000 + i).toString(),
-      title: "Lorem ipsum dolor sit amet",
+      quizId: (15000 + i).toString(),
+      quizTitle: "Lorem ipsum dolor sit amet",
       answerType: ans,
       createdBy: CREATED_BY[i % CREATED_BY.length],
       createdTime: "10 Sep, 24 at 10:41 AM",
@@ -119,43 +116,65 @@ const makeRows = (n = 97): QuestionRow[] =>
 
 const ALL_ROWS = makeRows();
 
-
-
-
-
-
 /* ---------- Page ---------- */
-const QuestionPage: React.FC = () => {
+const QuizPage: React.FC = () => {
   // data/state
-  const [rows] = useState<QuestionRow[]>(ALL_ROWS);
-  const availableForModal = useMemo(
-    () =>
-      rows.map((r) => ({
-        questionId: r.questionId,
-        title: r.title,
-        answerType: r.answerType,
-      })),
-    [rows]
-  );
+  const [rows] = useState<Row[]>(ALL_ROWS);
+
+  const availableForModal = useMemo(() => rows.map((r) =>
+  ({
+    questionId: r.quizId,
+    title: r.quizTitle,
+    answerType: r.answerType,
+
+  })),
+    [rows]);
+
+
+  //    const availableForModal = useMemo(
+  //   () =>
+  //     rows.map(({ quizId, quizTitle, answerType }, index) => ({
+  //       quizId,
+  //       quizTitle,
+  //       answerType,
+  //       questionId: `Q${index + 1}`, // Generate a unique questionId
+  //       title: quizTitle, // Or any other appropriate value
+  //     })),
+  //   [rows]
+  // );
+
+
+
+
+
 
   // filters
   const [q, setQ] = useState("");
   const [process, setProcess] = useState("");
   const [createdBy, setCreatedBy] = useState("");
   const [month, setMonth] = useState("January");
+
   // selection
   const [selectedRows, setSelectedRows] = useState<Set<number>>(new Set());
+
   // pagination
   const [page, setPage] = useState(1);
   const [rowsPerPage, setRowsPerPage] = useState(10);
-  // dialogs
-  const [deleteRow, setDeleteRow] = useState<QuestionRow | null>(null);
 
+  // dialogs
+  const [deleteRow, setDeleteRow] = useState<Row | null>(null);
   const [openCreate, setOpenCreate] = useState(false);
   const [viewOpen, setViewOpen] = useState(false);
-  const [viewRow, setViewRow] = useState<any | null>(null);
-  const [EditOpen, setEditOpen] = useState(false);
-  const [EditRow, setEditRow] = useState<any | null>(null);
+  const [viewRow, setViewRow] = useState<any | null>(null); // keep 'any' if ViewQuizModal still uses old names
+  const [editOpen, setEditOpen] = useState(false);
+  const [editRow, setEditRow] = useState<{
+    process: string;
+    quizId: string;
+    quizTitle: string;
+    answerType: string;
+    createdBy: string;
+    createdTime: string;
+  } | null>(null);
 
   // filtered list
   const filtered = useMemo(() => {
@@ -163,8 +182,8 @@ const QuestionPage: React.FC = () => {
     return rows.filter((r) => {
       const matchesQ =
         !rx ||
-        r.title.toLowerCase().includes(rx) ||
-        r.questionId.includes(rx) ||
+        r.quizTitle.toLowerCase().includes(rx) ||
+        r.quizId.includes(rx) ||
         r.process.toLowerCase().includes(rx);
       const matchesProcess = !process || r.process === process;
       const matchesCreator = !createdBy || r.createdBy === createdBy;
@@ -185,28 +204,14 @@ const QuestionPage: React.FC = () => {
     setSelectedRows(next);
   };
   const handleSelectAll = (checked: boolean) => {
-    if (checked) {
-      setSelectedRows(new Set(pageRows.map((r) => r.id)));
-    } else {
-      setSelectedRows(new Set());
-    }
+    setSelectedRows(checked ? new Set(pageRows.map((r) => r.id)) : new Set());
   };
 
   return (
     <div className="flex min-h-screen bg-gray-50 text-gray-900">
       <div className="flex-1">
-
-        {/* topbar call here 
-        <Topbar
-          title="Question"
-          userName="Imran Hasan"
-          icon={<CircleQuestionMark />}
-          onSettings={() => { }}
-          onChangePassword={() => { }}
-          onLogout={() => { }}
-        /> */}
         <main className="mx-auto w-full max-w-[1400px] px-4 py-6 md:px-6">
-          {/* Filters row */}
+          {/* Filters */}
           <div className="flex flex-wrap items-center gap-3">
             <div className="relative">
               <Search className="pointer-events-none absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-gray-500" />
@@ -227,9 +232,10 @@ const QuestionPage: React.FC = () => {
                 setProcess(v);
                 setPage(1);
               }}
-              options={PROCESSES as unknown as string[]}
+              options={[...PROCESSES] as unknown as string[]}
               placeholder="Process Name"
               className="min-w-36"
+              leftIcon={<CalendarDays className="h-4 w-4 opacity-0" />} // alignment only
             />
 
             <SelectField
@@ -247,18 +253,7 @@ const QuestionPage: React.FC = () => {
               value={month}
               onChange={setMonth}
               options={[
-                "January",
-                "February",
-                "March",
-                "April",
-                "May",
-                "June",
-                "July",
-                "August",
-                "September",
-                "October",
-                "November",
-                "December",
+                "January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December",
               ]}
               className="min-w-32"
               leftIcon={<CalendarDays className="h-4 w-4" />}
@@ -270,9 +265,7 @@ const QuestionPage: React.FC = () => {
             >
               <Plus className="h-4 w-4" /> Quiz Create
             </button>
-            {/* <button className="inline-flex items-center gap-2 rounded-xl border border-gray-300 bg-gray-200 px-4 py-2 text-sm font-medium text-gray-900 hover:bg-gray-300">
-              <Upload className="h-4 w-4" /> Upload
-            </button> */}
+
             <button className="inline-flex items-center gap-2 rounded-xl border border-gray-300 bg-gray-200 px-4 py-2 text-sm font-medium text-gray-900 hover:bg-gray-300">
               <FileDown className="h-4 w-4" /> Export
             </button>
@@ -311,13 +304,13 @@ const QuestionPage: React.FC = () => {
                         type="checkbox"
                         checked={selectedRows.has(r.id)}
                         onChange={() => handleSelectRow(r.id)}
-                        aria-label={`Select ${r.title}`}
+                        aria-label={`Select ${r.quizTitle}`}
                       />
                     </TableCell>
                     <TableCell>{r.sl}</TableCell>
                     <TableCell>{r.process}</TableCell>
-                    <TableCell>{r.questionId}</TableCell>
-                    <TableCell className="truncate max-w-[220px]">{r.title}</TableCell>
+                    <TableCell>{r.quizId}</TableCell>
+                    <TableCell className="truncate max-w-[220px]">{r.quizTitle}</TableCell>
                     <TableCell>{r.answerType}</TableCell>
                     <TableCell>{r.createdBy}</TableCell>
                     <TableCell className="whitespace-nowrap">{r.createdTime}</TableCell>
@@ -326,20 +319,23 @@ const QuestionPage: React.FC = () => {
                     </TableCell>
                     <TableCell>
                       <div className="flex items-center gap-2">
+                        {/* View */}
                         <button
                           className="text-gray-600 hover:text-gray-800"
                           aria-label="View"
                           onClick={() => {
+                            // If your ViewQuizModal expects quizId/quizTitle, this is perfect.
+                            // If it still expects questionId/title, rename here before setViewRow.
                             setViewRow({
                               process: r.process,
-                              questionId: r.questionId,
-                              title: r.title,
+                              quizId: r.quizId,
+                              quizTitle: r.quizTitle,
                               answerType: r.answerType,
-                              question: r.title,          // or your real quiz field
-                              description: "Lorem ipsum dolor...", // if available
                               createdBy: r.createdBy,
                               createdTime: r.createdTime,
-                              required: r.status === "Active",     // or your real required flag
+                              status: r.status,
+                              description: "Lorem ipsum dolor...",
+                              required: r.status === "Active",
                             });
                             setViewOpen(true);
                           }}
@@ -347,20 +343,18 @@ const QuestionPage: React.FC = () => {
                           <Eye className="h-4 w-4" />
                         </button>
 
+                        {/* Edit */}
                         <button
                           className="text-gray-600 hover:text-gray-800"
-                          aria-label="View"
+                          aria-label="Edit"
                           onClick={() => {
                             setEditRow({
                               process: r.process,
-                              questionId: r.questionId,
-                              title: r.title,
+                              quizId: r.quizId,
+                              quizTitle: r.quizTitle,
                               answerType: r.answerType,
-                              question: r.title,          // or your real quiz field
-                              description: "Lorem ipsum dolor...", // if available
                               createdBy: r.createdBy,
                               createdTime: r.createdTime,
-                              required: r.status === "Active",     // or your real required flag
                             });
                             setEditOpen(true);
                           }}
@@ -368,6 +362,7 @@ const QuestionPage: React.FC = () => {
                           <Pencil className="h-4 w-4" />
                         </button>
 
+                        {/* Delete */}
                         <button
                           className="text-red-500 hover:text-red-700"
                           aria-label="Delete"
@@ -440,34 +435,51 @@ const QuestionPage: React.FC = () => {
         </main>
       </div>
 
+      {/* View Quiz */}
+      <ViewQuizModal
+        open={viewOpen}
+        data={viewRow}
+        onClose={() => setViewOpen(false)}
+      />
 
+      {/* Edit Quiz */}
+      <EditQuizModal
+        open={editOpen}
+        initialData={editRow}
+        onClose={() => setEditOpen(false)}
+        onSave={(data) => {
+          console.log("save edited quiz", data);
+          setEditOpen(false);
+          // TODO: call API + refresh table
+        }}
+      />
+
+      {/* Create Quiz */}
       <CreateQuizModal
         open={openCreate}
         onClose={() => setOpenCreate(false)}
         onSave={(payload) => {
-          // TODO: call your API here
           console.log("Create quiz payload:", payload);
           setOpenCreate(false);
         }}
-        processes={PROCESSES as unknown as string[]}
-        allQuestions={availableForModal}
+        processes={[...PROCESSES] as unknown as string[]}
+        allQuestions={availableForModal} // {quizId, quizTitle, answerType}
       />
 
-
-      {/* Confirm delete  */}
+      {/* Confirm delete */}
       <ConfirmDialog
         open={!!deleteRow}
-        title="Delete question?"
+        title="Delete quiz?"
         message={
           deleteRow
-            ? `Are you sure you want to delete “${deleteRow.title}” (ID: ${deleteRow.questionId})? This action cannot be undone.`
+            ? `Are you sure you want to delete “${deleteRow.quizTitle}” (Quiz ID: ${deleteRow.quizId})? This action cannot be undone.`
             : undefined
         }
         confirmText="Delete"
         cancelText="Cancel"
         onConfirm={() => {
           console.log("User Confirm delete:", deleteRow);
-          setDeleteRow(null); // only close
+          setDeleteRow(null);
         }}
         onClose={() => setDeleteRow(null)}
       />
@@ -475,4 +487,4 @@ const QuestionPage: React.FC = () => {
   );
 };
 
-export default QuestionPage;
+export default QuizPage;

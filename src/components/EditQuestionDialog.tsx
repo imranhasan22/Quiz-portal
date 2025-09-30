@@ -32,7 +32,7 @@ export default function EditQuestionDialog({
     register,
     handleSubmit,
     reset,
-    formState: { errors },
+    formState: { errors, isDirty },
   } = useForm<QuestionData>({
     defaultValues: {
       process: "",
@@ -45,16 +45,33 @@ export default function EditQuestionDialog({
       createdTime: "",
       required: false,
     },
+    mode: "onSubmit",
   });
 
   // Popups state
   const [showSuccess, setShowSuccess] = useState(false);
   const [showFailure, setShowFailure] = useState(false);
 
-  // যখন modal খোলে তখন initial data reset করো
+  // Submit handler: only succeed if something changed
+  const onValidSubmit = (data: QuestionData) => {
+    if (!isDirty) {
+     
+      return;
+    }
+    // Basic required checks (you can also enforce these via RHF rules below)
+    if (!data.process || !data.question || !data.questionId) {
+      setShowFailure(true);
+      return;
+    }
+    onSubmit?.(data);
+    setShowSuccess(true);
+  };
+
   useEffect(() => {
     if (open && initialData) {
       reset(initialData);
+      setShowSuccess(false);
+      setShowFailure(false);
     }
   }, [open, initialData, reset]);
 
@@ -67,17 +84,7 @@ export default function EditQuestionDialog({
 
       {/* Panel */}
       <div className="absolute inset-0 grid place-items-center p-4">
-        <form
-          onSubmit={handleSubmit((data) => {
-            if (!data.process || !data.question || !data.questionId) {
-              setShowFailure(true);
-              return;
-            }
-            onSubmit?.(data);
-            setShowSuccess(true);
-          })}
-          className="w-full max-w-3xl rounded-2xl bg-white shadow-2xl"
-        >
+        <div className="w-full max-w-xl rounded-xl bg-white shadow-2xl">
           {/* Header */}
           <div className="flex items-center justify-between border-b px-6 py-4">
             <h2 className="text-lg font-semibold">Edit Question</h2>
@@ -91,135 +98,141 @@ export default function EditQuestionDialog({
             </button>
           </div>
 
-          {/* Body */}
-          <div className="space-y-5 px-6 py-5">
-            {/* Row 1 */}
-            <div className="grid gap-4 sm:grid-cols-2">
-              {/* Select Process */}
-              <div>
-                <label className="mb-2 block text-sm text-gray-700">Select Process</label>
-                <div className="relative">
-                  <select
-                    {...register("process")}
-                    className="w-full appearance-none rounded-xl border border-gray-300 bg-white px-4 py-2 pr-9 text-sm text-gray-900 outline-none"
-                  >
-                    <option value="" disabled>
-                      Select Process
-                    </option>
-                    {PROCESS_OPTIONS.map((p) => (
-                      <option key={p} value={p}>
-                        {p}
+          {/* Form */}
+          <form onSubmit={handleSubmit(onValidSubmit)} className="flex flex-col justify-between h-full">
+            {/* Body */}
+            <div className="space-y-5 px-6 py-5">
+              {/* Row 1 */}
+              <div className="grid gap-4 sm:grid-cols-2">
+                {/* Select Process */}
+                <div>
+                  <label className="mb-2 block text-sm text-gray-700">Select Process</label>
+                  <div className="relative">
+                    <select
+                      {...register("process")}
+                      className="w-full appearance-none rounded-xl border border-gray-300 bg-white px-4 py-2 pr-9 text-sm text-gray-900 outline-none"
+                    >
+                      <option value="" disabled>
+                        Select Process
                       </option>
-                    ))}
-                  </select>
-                  <ChevronDown className="pointer-events-none absolute right-3 top-1/2 h-4 w-4 -translate-y-1/2 text-gray-500" />
+                      {PROCESS_OPTIONS.map((p) => (
+                        <option key={p} value={p}>
+                          {p}
+                        </option>
+                      ))}
+                    </select>
+                    <ChevronDown className="pointer-events-none absolute right-3 top-1/2 h-4 w-4 -translate-y-1/2 text-gray-500" />
+                  </div>
+                  {errors.process && <p className="text-red-500 text-sm">{errors.process.message}</p>}
                 </div>
-                {errors.process && <p className="text-red-500 text-sm">{errors.process.message}</p>}
-              </div>
 
-              {/* Question ID */}
-              <div>
-                <label className="mb-2 block text-sm text-gray-700">Question ID</label>
-                <input
-                  {...register("questionId")}
-                  className="w-full rounded-xl border border-gray-300 px-4 py-2 text-sm text-gray-900 outline-none"
-                />
-                {errors.questionId && <p className="text-red-500 text-sm">{errors.questionId.message}</p>}
-              </div>
-            </div>
-
-            {/* Row 2 */}
-            <div className="grid gap-4 sm:grid-cols-2">
-              <div>
-                <label className="mb-2 block text-sm text-gray-700">Question Title</label>
-                <input
-                  {...register("title")}
-                  className="w-full rounded-xl border border-gray-300 px-4 py-2 text-sm text-gray-900 outline-none"
-                />
-              </div>
-
-              {/* Answer Type */}
-              <div>
-                <label className="mb-2 block text-sm text-gray-700">Answer Type</label>
-                <div className="relative">
-                  <select
-                    {...register("answerType")}
-                    className="w-full appearance-none rounded-xl border border-gray-300 bg-white px-4 py-2 pr-9 text-sm text-gray-900 outline-none"
-                  >
-                    {ANSWER_TYPES.map((t) => (
-                      <option key={t} value={t}>
-                        {t}
-                      </option>
-                    ))}
-                  </select>
-                  <ChevronDown className="pointer-events-none absolute right-3 top-1/2 h-4 w-4 -translate-y-1/2 text-gray-500" />
+                {/* Question ID */}
+                <div>
+                  <label className="mb-2 block text-sm text-gray-700">Question ID</label>
+                  <input
+                    {...register("questionId")}
+                    className="w-full rounded-xl border border-gray-300 px-4 py-2 text-sm text-gray-900 outline-none"
+                  />
+                  {errors.questionId && <p className="text-red-500 text-sm">{errors.questionId.message}</p>}
                 </div>
               </div>
-            </div>
 
-            {/* Question */}
-            <div>
-              <label className="mb-2 block text-sm text-gray-700">Question</label>
-              <input
-                {...register("question")}
-                className="w-full rounded-xl border border-gray-300 px-4 py-2 text-sm text-gray-900 outline-none"
-              />
-              {errors.question && <p className="text-red-500 text-sm">{errors.question.message}</p>}
-            </div>
+              {/* Row 2 */}
+              <div className="grid gap-4 sm:grid-cols-2">
+                <div>
+                  <label className="mb-2 block text-sm text-gray-700">Question Title</label>
+                  <input
+                    {...register("title")}
+                    className="w-full rounded-xl border border-gray-300 px-4 py-2 text-sm text-gray-900 outline-none"
+                  />
+                </div>
 
-            {/* Description */}
-            <div>
-              <label className="mb-2 block text-sm text-gray-700">Description</label>
-              <textarea
-                {...register("description")}
-                rows={3}
-                className="w-full rounded-xl border border-gray-300 bg-white px-4 py-2 text-sm text-gray-900 outline-none"
-              />
-            </div>
+                {/* Answer Type */}
+                <div>
+                  <label className="mb-2 block text-sm text-gray-700">Answer Type</label>
+                  <div className="relative">
+                    <select
+                      {...register("answerType")}
+                      className="w-full appearance-none rounded-xl border border-gray-300 bg-white px-4 py-2 pr-9 text-sm text-gray-900 outline-none"
+                    >
+                      {ANSWER_TYPES.map((t) => (
+                        <option key={t} value={t}>
+                          {t}
+                        </option>
+                      ))}
+                    </select>
+                    <ChevronDown className="pointer-events-none absolute right-3 top-1/2 h-4 w-4 -translate-y-1/2 text-gray-500" />
+                  </div>
+                </div>
+              </div>
 
-            {/* Row 3 */}
-            <div className="grid gap-4 sm:grid-cols-2">
+              {/* Question */}
               <div>
-                <label className="mb-2 block text-sm text-gray-700">Created By</label>
+                <label className="mb-2 block text-sm text-gray-700">Question</label>
                 <input
-                  {...register("createdBy")}
+                  {...register("question")}
                   className="w-full rounded-xl border border-gray-300 px-4 py-2 text-sm text-gray-900 outline-none"
                 />
+                {errors.question && <p className="text-red-500 text-sm">{errors.question.message}</p>}
               </div>
+
+              {/* Description */}
               <div>
-                <label className="mb-2 block text-sm text-gray-700">Created Time</label>
-                <input
-                  {...register("createdTime")}
-                  className="w-full rounded-xl border border-gray-300 px-4 py-2 text-sm text-gray-900 outline-none"
+                <label className="mb-2 block text-sm text-gray-700">Description</label>
+                <textarea
+                  {...register("description")}
+                  rows={3}
+                  className="w-full rounded-xl border border-gray-300 bg-white px-4 py-2 text-sm text-gray-900 outline-none"
                 />
               </div>
+
+              {/* Row 3 */}
+              <div className="grid gap-4 sm:grid-cols-2">
+                <div>
+                  <label className="mb-2 block text-sm text-gray-700">Created By</label>
+                  <input
+                    {...register("createdBy")}
+                    className="w-full rounded-xl border border-gray-300 px-4 py-2 text-sm text-gray-900 outline-none"
+                  />
+                </div>
+                <div>
+                  <label className="mb-2 block text-sm text-gray-700">Created Time</label>
+                  <input
+                    {...register("createdTime")}
+                    className="w-full rounded-xl border border-gray-300 px-4 py-2 text-sm text-gray-900 outline-none"
+                  />
+                </div>
+              </div>
+
+              {/* Required */}
+              <div className="flex items-center gap-3">
+                <span className="text-sm text-gray-700">Required</span>
+                <label className="relative inline-flex items-center cursor-pointer">
+                  <input type="checkbox" {...register("required")} className="peer sr-only" />
+                  <span className="h-5 w-9 rounded-full border border-gray-300 bg-gray-300 transition-colors peer-checked:bg-gray-700" />
+                  <span className="absolute left-0.5 top-0.5 h-4 w-4 rounded-full bg-white shadow transition-transform peer-checked:translate-x-4" />
+                </label>
+              </div>
             </div>
 
-            {/* Required */}
-            <div className="flex items-center gap-3">
-              <span className="text-sm text-gray-700">Required</span>
-              <label className="relative inline-flex items-center cursor-pointer">
-                <input type="checkbox" {...register("required")} className="peer sr-only" />
-                <span className="h-5 w-9 rounded-full border border-gray-300 bg-gray-300 transition-colors peer-checked:bg-gray-700" />
-                <span className="absolute left-0.5 top-0.5 h-4 w-4 rounded-full bg-white shadow transition-transform peer-checked:translate-x-4" />
-              </label>
+            {/* Footer */}
+            <div className="px-6 py-4">
+              <button
+                type="submit"
+                disabled={!isDirty}
+                className={`w-full rounded-md px-4 py-2 text-sm font-medium text-white shadow-md transition duration-200
+                ${!isDirty ? "bg-blue-600 cursor-not-allowed" : "bg-blue-600 hover:bg-blue-700 hover:shadow-lg"}`}
+                title={!isDirty ? "Make a change before submitting" : undefined}
+              >
+                Submit
+              </button>
             </div>
-          </div>
-
-          {/* Footer */}
-          <div className="px-6 py-4">
-            <button
-              type="submit"
-              className="w-full rounded-md bg-blue-600 px-4 py-2 text-sm font-medium text-white hover:bg-blue-700 shadow-md hover:shadow-lg transition duration-200"
-            >
-              Submit
-            </button>
-          </div>
-        </form>
+          </form>
+        </div>
 
         {/* Success popup */}
         {showSuccess && (
-          <div className="fixed inset-0 z-60 flex items-center justify-center">
+          <div className="fixed inset-0 z-[60] flex items-center justify-center">
             <div className="absolute inset-0 bg-black/50 backdrop-blur-s animate-fadeIn" />
             <div className="relative z-10 w-[320px] rounded-2xl bg-white p-6 shadow-2xl animate-scaleIn">
               {/* Icon */}

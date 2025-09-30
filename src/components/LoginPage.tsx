@@ -2,6 +2,7 @@ import type React from "react";
 import { useState } from "react";
 import img4 from "../assets/loginpageImage/Vector.png"; 
 import img8 from "../assets/loginpageImage/ride-side-image.png";
+import { useNavigate } from 'react-router-dom';
 
 interface LoginPageProps {
   onLogin: () => void;
@@ -10,12 +11,13 @@ function Loginpage({ onLogin }: LoginPageProps) {
   const [employeeId, setEmployeeId] = useState("");
   const [password, setPassword] = useState("");
   const [rememberMe, setRememberMe] = useState(false);
-
+  const navigate = useNavigate();
   // form handling
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     // Simulate login success
     onLogin();
+    navigate('/dashboard', { replace: true }); 
     console.log(" your Login attempt:", { employeeId, password, rememberMe });
   };
 
