@@ -32,7 +32,7 @@ export default function EditQuestionDialog({
     register,
     handleSubmit,
     reset,
-    formState: { errors, isDirty },
+    formState: {isDirty },
   } = useForm<QuestionData>({
     defaultValues: {
       process: "",
@@ -123,7 +123,7 @@ export default function EditQuestionDialog({
                     </select>
                     <ChevronDown className="pointer-events-none absolute right-3 top-1/2 h-4 w-4 -translate-y-1/2 text-gray-500" />
                   </div>
-                  {errors.process && <p className="text-red-500 text-sm">{errors.process.message}</p>}
+                 
                 </div>
 
                 {/* Question ID */}
@@ -133,7 +133,7 @@ export default function EditQuestionDialog({
                     {...register("questionId")}
                     className="w-full rounded-xl border border-gray-300 px-4 py-2 text-sm text-gray-900 outline-none"
                   />
-                  {errors.questionId && <p className="text-red-500 text-sm">{errors.questionId.message}</p>}
+                 
                 </div>
               </div>
 
@@ -173,7 +173,7 @@ export default function EditQuestionDialog({
                   {...register("question")}
                   className="w-full rounded-xl border border-gray-300 px-4 py-2 text-sm text-gray-900 outline-none"
                 />
-                {errors.question && <p className="text-red-500 text-sm">{errors.question.message}</p>}
+               
               </div>
 
               {/* Description */}
