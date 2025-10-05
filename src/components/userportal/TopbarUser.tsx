@@ -12,7 +12,7 @@ type TopbarProps = {
   rightExtra?: React.ReactNode;  // extra content at the right (optional)
 };
 
-const Topbar: React.FC<TopbarProps> = ({
+const TopbarUser: React.FC<TopbarProps> = ({
   title,
   userName = "",
  
@@ -123,4 +123,4 @@ const Topbar: React.FC<TopbarProps> = ({
   );
 };
 
-export default Topbar;
+export default TopbarUser;

@@ -33,7 +33,7 @@ const SelectField: React.FC<{
         className={[
           "appearance-none w-full rounded-2xl border border-gray-400 bg-white",
           "px-4 py-2 text-sm text-gray-900",
-          leftIcon ? "pl-9" : "",
+          leftIcon ? "pl-4" : "",
         ].join(" ")}
       >
         {placeholder && (

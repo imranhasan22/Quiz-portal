@@ -2,9 +2,8 @@
 "use client";
 
 import React, { useEffect, useMemo, useRef, useState } from "react";
-import { ChevronDown, Shield, CheckCircle2, XCircle, Loader2 } from "lucide-react";
+import { ChevronDown,BarChart3,FileQuestion,Users, BookOpenCheck,FileBarChart,Shield, CheckCircle2, XCircle, Loader2 } from "lucide-react";
 
-/* ---------- Tiny shared select ---------- */
 const SelectField: React.FC<{
   value: string;
   onChange: (v: string) => void;
@@ -47,9 +46,8 @@ const SelectField: React.FC<{
         ))}
       </select>
       <ChevronDown
-        className={`pointer-events-none absolute right-3 top-1/2 h-3.5 w-3.5 -translate-y-1/2 text-gray-500 transition-transform duration-200 ${
-          open ? "rotate-180" : "rotate-0"
-        }`}
+        className={`pointer-events-none absolute right-3 top-1/2 h-3.5 w-3.5 -translate-y-1/2 text-gray-500 transition-transform duration-200 ${open ? "rotate-180" : "rotate-0"
+          }`}
       />
     </div>
   );
@@ -69,7 +67,7 @@ const GROUPS: Group[] = [
   {
     key: "dashboard",
     title: "Dashboard",
-    icon: <Shield className="h-3.5 w-3.5" />,
+    icon: <BarChart3 className="h-3.5 w-3.5 text-indigo-600" />,
     items: [
       { key: "quiz_activity", label: "Quiz’s Activity" },
       { key: "process_ratio", label: "Process Wise Pass & Fail Ratio" },
@@ -78,6 +76,7 @@ const GROUPS: Group[] = [
   {
     key: "user",
     title: "User",
+    icon: <Users className="h-3.5 w-3.5 text-blue-600" />,
     items: [
       { key: "user_table", label: "User Table" },
       { key: "create_user", label: "Create User" },
@@ -88,6 +87,7 @@ const GROUPS: Group[] = [
   {
     key: "question",
     title: "Question",
+    icon: <FileQuestion className="h-3.5 w-3.5 text-purple-600" />,
     items: [
       { key: "create_question", label: "Question Create" },
       { key: "view_question", label: "View Question" },
@@ -99,6 +99,7 @@ const GROUPS: Group[] = [
   {
     key: "quiz",
     title: "Quiz",
+    icon: <BookOpenCheck className="h-3.5 w-3.5 text-green-600" />,
     items: [
       { key: "quiz_create", label: "Quiz Create" },
       { key: "quiz_upload", label: "Upload Quiz" },
@@ -109,6 +110,7 @@ const GROUPS: Group[] = [
   {
     key: "result",
     title: "Result",
+     icon: <FileBarChart className="h-3.5 w-3.5 text-amber-600" />,
     items: [
       { key: "result_export", label: "Result Export" },
       { key: "view_result", label: "View Result" },
@@ -117,6 +119,7 @@ const GROUPS: Group[] = [
   {
     key: "report",
     title: "Report",
+    icon: <Shield className="h-3.5 w-3.5 text-rose-600" />,
     items: [
       { key: "report_export", label: "Report Export" },
       { key: "report_delete", label: "Report Delete" },
@@ -144,7 +147,7 @@ const SettingsPage: React.FC = () => {
       if (raw) {
         try {
           return JSON.parse(raw) as RolePermissions;
-        } catch {}
+        } catch { }
       }
     }
     return emptyRolePerms();
@@ -155,11 +158,11 @@ const SettingsPage: React.FC = () => {
   const [showFailure, setShowFailure] = useState(false);
   const [saving, setSaving] = useState(false);
 
-  useEffect(() => {
-    if (typeof window !== "undefined") {
-      localStorage.setItem("role_perms", JSON.stringify(rolePerms));
-    }
-  }, [rolePerms]);
+  // useEffect(() => {
+  //   if (typeof window !== "undefined") {
+  //     localStorage.setItem("role_perms", JSON.stringify(rolePerms));
+  //   }
+  // }, [rolePerms]);
 
   const current: PermissionMap | null = useMemo(() => {
     if (!selectedRole) return null;
@@ -205,37 +208,37 @@ const SettingsPage: React.FC = () => {
 
   const canSave = !!selectedRole;
   const resetRolePerms = (pm: PermissionMap): PermissionMap =>
-  Object.fromEntries(Object.keys(pm).map((k) => [k, false])) as PermissionMap;
+    Object.fromEntries(Object.keys(pm).map((k) => [k, false])) as PermissionMap;
 
 
-const handleSave = async () => {
-  if (!canSave) return;
-  try {
-    setSaving(true);
-    const payload = rolePerms[selectedRole]; //  permissions of present role
-    const anyTrue = Object.values(rolePerms[selectedRole]).some(Boolean);
+  const handleSave = async () => {
+    if (!canSave) return;
+    try {
+      setSaving(true);
+      const payload = rolePerms[selectedRole]; //  permissions of present role
+      const anyTrue = Object.values(rolePerms[selectedRole]).some(Boolean);
 
-    if (anyTrue) {
-    
-     console.log(" Selected Role:", selectedRole);
-    console.log("Permissions for this role:", payload);
-      setRolePerms((prev) => ({
-        ...prev,
-        [selectedRole]: resetRolePerms(prev[selectedRole]),
-      }));
+      if (anyTrue) {
 
-   
+        console.log(" Selected Role:", selectedRole);
+        console.log("Permissions for this role:", payload);
+        setRolePerms((prev) => ({
+          ...prev,
+          [selectedRole]: resetRolePerms(prev[selectedRole]),
+        }));
 
-      setShowSuccess(true);
-    } else {
-      throw new Error("No permissions selected");
+
+
+        setShowSuccess(true);
+      } else {
+        throw new Error("No permissions selected");
+      }
+    } catch (e) {
+      setShowFailure(true);
+    } finally {
+      setSaving(false);
     }
-  } catch (e) {
-    setShowFailure(true);
-  } finally {
-    setSaving(false);
-  }
-};
+  };
 
   return (
     <div className="flex min-h-screen bg-gray-50 text-gray-900">
@@ -303,7 +306,7 @@ const handleSave = async () => {
             })}
           </div>
 
-       
+
           <div className="mt-5">
             <button
               disabled={!canSave || saving}

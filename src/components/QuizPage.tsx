@@ -41,7 +41,7 @@ const SelectField: React.FC<{
         className={[
           "appearance-none w-full rounded-2xl border border-gray-400 bg-white",
           "px-4 py-2 text-sm text-gray-900",
-          leftIcon ? "pl-9" : "",
+          leftIcon ? "pl-4" : "",
         ].join(" ")}
       >
         {placeholder && (
@@ -197,7 +197,6 @@ const QuizPage: React.FC = () => {
   const startIdx = (safePage - 1) * rowsPerPage;
   const pageRows = filtered.slice(startIdx, startIdx + rowsPerPage);
 
-  // selection handlers
   const handleSelectRow = (id: number) => {
     const next = new Set(selectedRows);
     next.has(id) ? next.delete(id) : next.add(id);
@@ -211,7 +210,7 @@ const QuizPage: React.FC = () => {
     <div className="flex min-h-screen bg-gray-50 text-gray-900">
       <div className="flex-1">
         <main className="mx-auto w-full max-w-[1400px] px-4 py-6 md:px-6">
-          {/* Filters */}
+     
           <div className="flex flex-wrap items-center gap-3">
             <div className="relative">
               <Search className="pointer-events-none absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-gray-500" />
@@ -235,7 +234,7 @@ const QuizPage: React.FC = () => {
               options={[...PROCESSES] as unknown as string[]}
               placeholder="Process Name"
               className="min-w-36"
-              leftIcon={<CalendarDays className="h-4 w-4 opacity-0" />} // alignment only
+              leftIcon={<CalendarDays className="h-4 w-4 opacity-0" />} 
             />
 
             <SelectField
@@ -463,7 +462,7 @@ const QuizPage: React.FC = () => {
           setOpenCreate(false);
         }}
         processes={[...PROCESSES] as unknown as string[]}
-        allQuestions={availableForModal} // {quizId, quizTitle, answerType}
+        allQuestions={availableForModal}
       />
 
       {/* Confirm delete */}

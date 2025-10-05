@@ -55,7 +55,6 @@ const AddQuestionDialog: React.FC<Props> = ({ open, onClose, onSubmit }) => {
     onClose();
   };
 
-  // submit handler: সাবমিট ডাটা পাঠাও
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault(); // Prevent default form submission behavior
 
