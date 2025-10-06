@@ -44,11 +44,12 @@ const Sidebar: React.FC<{ pathname: string }> = ({ pathname }) => (
     <nav className="space-y-1">
       <NavItem icon={<LayoutDashboard className="h-5 w-5" />} label="Dashboard" to="/dashboard" active={pathname === '/dashboard'} />
       <NavItem icon={<Users className="h-5 w-5" />} label="User" to="/user" active={pathname === '/user'} />
-      <NavItem icon={<ClipboardList className="h-5 w-5" />} label="Question" to="/questions" active={pathname === '/questions'} />
-      <NavItem icon={<FileText className="h-5 w-5" />} label="Quiz" to="/quiz" active={pathname === '/quiz'} />
+      <NavItem icon={< FileText className="h-5 w-5" />} label="Question" to="/questions" active={pathname === '/questions'} />
+      <NavItem icon={<ClipboardList className="h-5 w-5" />} label="Quiz" to="/quiz" active={pathname === '/quiz'} />
       <NavItem icon={<FileBarChart className="h-5 w-5" />} label="Result" to="/result" active={pathname === '/result'} />
       <NavItem icon={<FileBarChart className="h-5 w-5" />} label="Report" to="/report" active={pathname === '/report'} />
       <NavItem icon={<Settings className="h-5 w-5" />} label="Settings" to="/setting" active={pathname === '/setting'} />
+      <NavItem icon={<ClipboardList className="h-5 w-5" />} label="userQuiz" to="/userquiz" active={pathname === '/userquiz'} />
     </nav>
   </aside>
 );
@@ -62,6 +63,7 @@ const TITLE_MAP: Record<string, { title: string; icon?: React.ReactNode }> = {
   '/result': { title: 'Result', icon: <FileBarChart className="h-5 w-5" /> },
   '/report': { title: 'Report', icon: <FileBarChart className="h-5 w-5" /> },
   '/setting': { title: 'Settings', icon: <Settings className="h-5 w-5" /> },
+  '/userquiz':{title:'userquiz',icon:<ClipboardList className='h=-5 w-5'/>}
 };
 
 const DashboardLayout: React.FC<DashboardLayoutProps> = ({ onLogout }) => {

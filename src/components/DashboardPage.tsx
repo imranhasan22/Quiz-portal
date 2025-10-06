@@ -192,8 +192,7 @@ const Content: React.FC = () => {
   const dateInputRef = useRef<HTMLInputElement>(null);
 
   const openDatePicker = () => {
-    // modern browsers
-    // @ts-ignore - showPicker not in TS DOM types for all targets
+  
     dateInputRef.current?.showPicker?.();
     // fallback
     dateInputRef.current?.click();

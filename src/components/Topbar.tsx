@@ -3,19 +3,18 @@ import React, { useEffect, useRef, useState } from "react";
 import { Bell, ChevronDown, Lock, LogOut, Settings, UserCircle2 } from "lucide-react";
 
 type TopbarProps = {
-  title: string;                 
-  userName: string;            
-  icon?: React.ReactNode; 
+  title: string;
+  userName: string;
+  icon?: React.ReactNode;
   onChangePassword?: () => void;
   onSettings?: () => void;
   onLogout?: () => void;
-  rightExtra?: React.ReactNode;  // extra content at the right (optional)
+  rightExtra?: React.ReactNode;
 };
 
 const Topbar: React.FC<TopbarProps> = ({
   title,
   userName = "",
- 
   icon,
   onChangePassword,
   onSettings,
@@ -39,46 +38,44 @@ const Topbar: React.FC<TopbarProps> = ({
     <div className="sticky top-0 z-10 flex h-16 items-center justify-between border-b bg-white px-4 md:px-6">
       {/* Left: Title */}
       <div className="flex items-center gap-3">
-         {/* 👇 If no custom icon is passed, fallback to nothing */}
         {icon && <span className="h-5 w-5">{icon}</span>}
-        
         <h1 className="text-lg font-semibold">{title}</h1>
       </div>
 
       {/* Right: Actions */}
-      <div className="flex items-center">
-        
-          <button
-            className="mr-16 grid h-8 w-8 place-items-center rounded-xl border hover:bg-gray-50"
-            aria-label="Notifications"
-          >
-            <Bell className="h-7 w-7" />
-          </button>
-        
+      <div className="flex items-center gap-2">
+        {/* notifications */}
+        <button
+          className="grid h-8 w-8 place-items-center rounded-lg hover:bg-gray-100"
+          aria-label="Notifications"
+        >
+          <Bell className="h-7 w-7" />
+        </button>
 
-        {rightExtra ?? (
-          <div className="items-center gap-3 ml-5 bg-white px-2 py-2 md:flex">
-            <UserCircle2 className="grid h-8 w-8 rounded-xl border hover:bg-gray-50" />
-            <span className="text-xm font-medium">{userName}</span>
-          </div>
-        )}
-
+        {/* Profile: avatar + name + chevron => ONE trigger */}
         <div className="relative" ref={menuRef}>
-          <button
-            onClick={() => setMenuOpen((v) => !v)}
-            className="grid h-10 w-10 place-items-center rounded-xl hover:bg-gray-50"
-            aria-haspopup="menu"
-            aria-expanded={menuOpen}
-          >
-            <ChevronDown
-              className={`h-4 w-4 ml-6 transition-transform duration-200 ${
-                menuOpen ? "-translate-y-0.5 rotate-180" : "rotate-0"
-              }`}
-            />
-          </button>
+          {rightExtra ?? (
+            <button
+              type="button"
+              onClick={() => setMenuOpen((v) => !v)}
+              aria-haspopup="menu"
+              aria-expanded={menuOpen}
+              aria-controls="topbar-user-menu"
+              className="flex items-center gap-2 rounded-xl px-2 py-1 hover:bg-gray-50"
+            >
+              <UserCircle2 className="h-8 w-8 rounded-xl border" />
+              <span className="text-sm font-medium">{userName}</span>
+              <ChevronDown
+                className={`h-4 w-4 transition-transform duration-200 ${
+                  menuOpen ? "rotate-180" : "rotate-0"
+                }`}
+              />
+            </button>
+          )}
 
           {menuOpen && (
             <div
+              id="topbar-user-menu"
               role="menu"
               className="absolute right-0 mt-2 w-48 overflow-hidden rounded-lg border bg-white shadow-lg"
             >
@@ -102,7 +99,8 @@ const Topbar: React.FC<TopbarProps> = ({
                   onSettings?.();
                 }}
               >
-                <Settings className="h-4 w-4" /> Settings
+                <Settings className="h-4 w-4" />
+                Settings
               </button>
 
               <button
@@ -113,7 +111,8 @@ const Topbar: React.FC<TopbarProps> = ({
                   onLogout?.();
                 }}
               >
-                <LogOut className="h-4 w-4" /> Log out
+                <LogOut className="h-4 w-4" />
+                Log out
               </button>
             </div>
           )}
