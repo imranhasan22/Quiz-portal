@@ -181,7 +181,7 @@ export default function ResultPage() {
     });
 
   return (
-    <div className="flex min-h-screen bg-gray-50 text-gray-900">
+    <div className="flex min-h-screen text-gray-900">
       <div className="flex-1">
         <main className="mx-auto w-full max-w-[1400px] px-4 py-6 md:px-6">
           {/* filters */}

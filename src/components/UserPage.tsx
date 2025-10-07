@@ -327,7 +327,7 @@ const UserPage: React.FC = () => {
   const pageRows = filtered.slice(startIdx, startIdx + rowsPerPage);
 
   return (
-    <div className="flex min-h-screen bg-gray-50 text-gray-900">
+    <div className="flex min-h-screen text-gray-900">
       {/* <Sidebar /> */}
       <div className="flex-1">
         {/* <Topbar
@@ -468,7 +468,7 @@ const UserPage: React.FC = () => {
                     </TableCell>
                     <TableCell>
                       <div className="flex items-center gap-2">
-                        <button className="text-blue-500 hover:text-blue-700"
+                        <button className="text-blue-500 cursor-pointer hover:text-blue-700"
                           onClick={() => handleEditUser(r)}>
 
                           <Pencil className="h-4 w-4" />

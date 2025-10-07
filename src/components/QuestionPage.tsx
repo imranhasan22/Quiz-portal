@@ -185,7 +185,7 @@ const QuestionPage: React.FC = () => {
   };
 
   return (
-    <div className="flex min-h-screen bg-gray-50 text-gray-900">
+    <div className="flex min-h-screen text-gray-900">
       <div className="flex-1">
 
         {/* topbar call here 

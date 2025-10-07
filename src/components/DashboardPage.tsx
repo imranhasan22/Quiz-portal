@@ -61,8 +61,8 @@ const StatCard: React.FC<{
   label: string;
   value: string | number;
 }> = ({ icon, label, value }) => (
-  <div className="rounded-2xl border bg-white p-5 shadow-sm">
-    <div className="flex items-center gap-3 text-gray-600">
+  <div className="rounded-2xl border  bg-white p-5 border-gray-400">
+    <div className="flex items-center gap-3 text-slate-700">
       <div className="grid h-10 w-10 place-items-center rounded-xl border bg-gray-50">{icon}</div>
       <div className="text-sm">{label}</div>
     </div>
@@ -205,7 +205,7 @@ const Content: React.FC = () => {
 
 
   return (
-    <div className="flex-1 bg-gray-50">
+    <div className="flex-1">
       {/* topbar calls here
         <Topbar
           title= "Quiz Portal Admin Dashboard"
@@ -289,7 +289,7 @@ const Content: React.FC = () => {
 
 // --- Page Layout ---
 const DashboardLayout: React.FC<{ children: React.ReactNode }> = ({ children }) => (
-  <div className="flex min-h-screen bg-gray-50 text-gray-900">
+  <div className="flex min-h-screen text-gray-900">
     {/* <Sidebar /> */}
     {children}
   </div>

@@ -241,7 +241,7 @@ const SettingsPage: React.FC = () => {
   };
 
   return (
-    <div className="flex min-h-screen bg-gray-50 text-gray-900">
+    <div className="flex min-h-screen text-gray-900">
       <div className="flex-1">
         <main className="mx-auto w-full max-w-[1300px] px-4 py-5 md:px-6">
           {/* Role select */}
