@@ -214,7 +214,7 @@ export default function ReportPage() {
             />
 
             <button
-              className="ml-auto inline-flex items-center gap-2 rounded-xl border border-gray-300 bg-gray-200 px-4 py-2 text-sm font-medium text-gray-900 hover:bg-gray-300"
+              className="ml-auto inline-flex items-center gap-2 rounded-xl border border bg-[#5670F7] px-4 py-2 text-sm font-medium text-[#FDFFFF] hover:bg-blue-600 cursor-pointer"
               onClick={() => console.log("export report")}
             >
               <FileDown className="h-4 w-4" /> Export
@@ -280,7 +280,7 @@ export default function ReportPage() {
                     <TableCell>{r.scorePct}%</TableCell>
                     <TableCell>
                       <button
-                        className="text-red-500 hover:text-red-700"
+                        className="text-red-500 cursor-pointer rounded -2xl border-2 bg-gray-100 hover:text-red-700"
                         aria-label="Delete"
                         onClick={() => {
                           if (confirm(`Delete report row for Quiz ${r.quizId}?`)) {

@@ -1,6 +1,5 @@
 import React, { useMemo, useState } from "react";
 import AddUserModal from "./AddUserModal";
-import Topbar from "./Topbar";
 import EditUserModal from "./EditUserModal";
 import ConfirmDialog from "./ConfirmDialog";
 import { TableBody, Table, TableCell, TableHeader, TableRow } from "./ui/table";
@@ -13,7 +12,6 @@ import {
   Upload,
   Pencil,
   Trash2,
-  UserCircle2,
   
 } from "lucide-react";
 
@@ -61,27 +59,13 @@ const SelectField: React.FC<{
       </select>
 
       <ChevronDown
-        className={`pointer-events-none absolute right-3 top-1/2 h-4 w-4 -translate-y-1/2 text-gray-900 transition-transform duration-200 ${open ? "rotate-180" : "rotate-0"
+        className={`pointer-events-none absolute right-5 top-1/2 h-4 w-4 -translate-y-1/2 text-gray-900 transition-transform duration-200 ${open ? "rotate-180" : "rotate-0"
           }`}
       />
     </div>
   );
 };
 
-
-// const IconButton: React.FC<
-//   React.ButtonHTMLAttributes<HTMLButtonElement> & { children: React.ReactNode }
-// > = ({ children, className = "", ...props }) => (
-//   <button
-//     className={[
-//       "grid h-8 w-8 place-items-center rounded-md hover:bg-gray-100 text-gray-700",
-//       className,
-//     ].join(" ")}
-//     {...props}
-//   >
-//     {children}
-//   </button>
-// );
 
 const StatusPill: React.FC<{ value: "Active" | "Inactive" }> = ({ value }) => {
   const isActive = value === "Active";
@@ -157,103 +141,7 @@ const makeRows = (n = 97): UserRow[] =>
 
 const ALL_ROWS = makeRows();
 
-// const Topbar: React.FC = () => {
 
-//   const [menuOpen, setMenuOpen] = useState(false);
-//   const menuRef = useRef<HTMLDivElement>(null);
-
-//   useEffect(() => {
-//     const onClickOutside = (e: MouseEvent) => {
-//       if (menuRef.current && !menuRef.current.contains(e.target as Node)) {
-//         setMenuOpen(false);
-//       }
-//     };
-//     document.addEventListener("mousedown", onClickOutside);
-//     return () => document.removeEventListener("mousedown", onClickOutside);
-//   }, []);
-
-//   return (
-//     <div className="sticky top-0 z-10 flex h-16 items-center justify-between border-b bg-white px-4 md:px-6">
-//       <div className="flex items-center gap-3">
-//         <UserCircle2 className="h-5 w-5" />
-//         <h1 className="text-lg font-semibold">User</h1>
-//       </div>
-
-//       <div className="flex items-center">
-//         <button
-//           className="mr-16 grid h-8 w-8 place-items-center rounded-xl border hover:bg-gray-50"
-//           aria-label="Notifications"
-//         >
-//           <Bell className="h-7 w-7" />
-//         </button>
-
-//         <div className="items-center gap-3 ml-5 bg-white px-2 py-2 md:flex">
-
-//           <UserCircle2 className="grid h-8 w-8 rounded-xl border hover:bg-gray-50" />
-//           <span className="text-xm font-medium">Imran Hasan</span>
-//         </div>
-
-
-//         <div className="relative" ref={menuRef}>
-//           <button
-//             onClick={() => setMenuOpen((v) => !v)}
-//             className="grid h-10 w-10 place-items-center rounded-xl hover:bg-gray-50"
-//             aria-haspopup="menu"
-//             aria-expanded={menuOpen}
-//           >
-//             <ChevronDown
-//               className={`h-4 w-4 ml-6 transition-transform duration-200 ${menuOpen ? "-translate-y-0.5 rotate-180" : "rotate-0"
-//                 }`}
-//             />
-//           </button>
-
-//           {menuOpen && (
-//             <div
-//               role="menu"
-//               className="absolute right-0 mt-2 w-48 overflow-hidden rounded-lg border bg-white shadow-lg"
-//             >
-//               <button
-//                 role="menuitem"
-//                 className="flex w-full items-center gap-2 px-4 py-2 text-sm hover:bg-gray-100"
-//                 onClick={() => {
-//                   setMenuOpen(false);
-
-//                   // navigate('/change-password')
-//                 }}
-//               >
-//                 <Lock className="h-4 w-4" />
-//                 Change Password
-//               </button>
-
-//               <button
-//                 role="menuitem"
-//                 className="flex w-full items-center gap-2 px-4 py-2 text-sm hover:bg-gray-100"
-//                 onClick={() => {
-//                   setMenuOpen(false);
-
-//                 }}
-//               >
-//                 <Settings className="h-4 w-4" /> Settings
-//               </button>
-
-//               <button
-//                 role="menuitem"
-//                 className="flex w-full items-center gap-2 px-4 py-2 text-sm text-red-600 hover:bg-gray-100"
-//                 onClick={() => {
-//                   setMenuOpen(false);
-
-//                 }}
-//               >
-//                 <LogOut className="h-4 w-4" /> Log out
-//               </button>
-//             </div>
-//           )}
-//         </div>
-//       </div>
-
-//     </div>
-//   )
-// }
 
 // ----- The page proper -----
 const UserPage: React.FC = () => {
@@ -304,9 +192,9 @@ const UserPage: React.FC = () => {
   const handleSelectRow = (id: number) => {
     const updatedSelectedRows = new Set(selectedRows);
     if (updatedSelectedRows.has(id)) {
-      updatedSelectedRows.delete(id); // Deselect row
+      updatedSelectedRows.delete(id);
     } else {
-      updatedSelectedRows.add(id); // Select row
+      updatedSelectedRows.add(id); 
     }
     setSelectedRows(updatedSelectedRows);
   };
@@ -412,13 +300,13 @@ const UserPage: React.FC = () => {
 
             <button
               onClick={() => setAddOpen(true)}
-              className="ml-auto inline-flex items-center gap-2 rounded-xl border border-gray-300 bg-gray-200 px-4 py-2 text-sm font-medium text-gray-900 hover:bg-gray-300"
+              className="ml-auto inline-flex items-center cursor-pointer gap-2 rounded-xl border border-gray- bg-[#5670F7] px-4 py-2 text-sm font-medium text-[#FDFFFF] hover:bg-blue-600"
             >
-              <UserPlus className="h-4 w-4" /> Add User
+              <UserPlus className="h-4 w-4 " /> Add User
             </button>
 
 
-            <button className="ml-auto inline-flex items-center gap-2 rounded-xl border-black bg-gray-300 px-4 py-2 text-sm font-medium text-black hover:bg-gray-400">
+            <button className="ml-auto inline-flex items-center cursor-pointer gap-2 rounded-xl border- bg-[#5670F7] px-4 py-2 text-sm font-medium text-[#FDFFFF] hover:bg-blue-600">
               <Upload className="h-4 w-5" /> Upload User
             </button>
           </div>
@@ -468,16 +356,16 @@ const UserPage: React.FC = () => {
                     </TableCell>
                     <TableCell>
                       <div className="flex items-center gap-2">
-                        <button className="text-blue-500 cursor-pointer hover:text-blue-700"
+                        <button className="text-blue-500 cursor-pointer rounded -2xl border-2 bg-gray-100 hover:text-blue-700"
                           onClick={() => handleEditUser(r)}>
 
-                          <Pencil className="h-4 w-4" />
+                          <Pencil className="h-4 w-4 " />
                         </button>
                         <button
-                          className="text-red-500 hover:text-red-700"
+                          className="text-red-500 cursor-pointer rounded -2xl border-2 bg-gray-100 hover:text-red-700"
                           onClick={() => setDeleteUser(r)}
                         >
-                          <Trash2 className="h-4 w-4" />
+                          <Trash2 className="h-4.5 w-4.5" />
                         </button>
 
                       </div>

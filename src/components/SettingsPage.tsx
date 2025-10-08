@@ -158,11 +158,7 @@ const SettingsPage: React.FC = () => {
   const [showFailure, setShowFailure] = useState(false);
   const [saving, setSaving] = useState(false);
 
-  // useEffect(() => {
-  //   if (typeof window !== "undefined") {
-  //     localStorage.setItem("role_perms", JSON.stringify(rolePerms));
-  //   }
-  // }, [rolePerms]);
+
 
   const current: PermissionMap | null = useMemo(() => {
     if (!selectedRole) return null;
@@ -314,11 +310,11 @@ const SettingsPage: React.FC = () => {
               className={[
                 "inline-flex items-center gap-2 rounded-lg px-4 py-1.5 text-[13px] font-medium",
                 !canSave || saving
-                  ? "bg-gray-200 text-gray-500 cursor-not-allowed"
-                  : "bg-gray-900 text-white hover:bg-black",
+                  ? "bg-[#5670F7] text-[#FDFFFF] cursor-not-allowed"
+                  : "bg-[#5670F7] text-[#FDFFFF] hover:bg-blue-600",
               ].join(" ")}
             >
-              {saving && <Loader2 className="h-3.5 w-3.5 animate-spin" />}
+   
               Save
             </button>
           </div>

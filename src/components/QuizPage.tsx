@@ -41,7 +41,7 @@ const SelectField: React.FC<{
         className={[
           "appearance-none w-full rounded-2xl border border-gray-400 bg-white",
           "px-4 py-2 text-sm text-gray-900",
-          leftIcon ? "pl-4" : "",
+          leftIcon ? "pl-9" : "",
         ].join(" ")}
       >
         {placeholder && (
@@ -229,15 +229,14 @@ const QuizPage: React.FC = () => {
               leftIcon={<CalendarDays className="h-4 w-4" />}
             />
 
-            {/* UPDATED: navigate to full-page create */}
             <button
-              className="ml-auto inline-flex items-center gap-2 rounded-xl border border-gray-300 bg-gray-200 px-4 py-2 text-sm font-medium text-gray-900 hover:bg-gray-300"
+              className="ml-auto inline-flex items-center gap-2 rounded-xl border bg-[#5670F7] px-4 py-2 text-sm font-medium text-[#FDFFFF] hover:bg-blue-600 cursor-pointer"
               onClick={() => navigate("/quiz/create")}
             >
               <Plus className="h-4 w-4" /> Quiz Create
             </button>
 
-            <button className="inline-flex items-center gap-2 rounded-xl border border-gray-300 bg-gray-200 px-4 py-2 text-sm font-medium text-gray-900 hover:bg-gray-300">
+            <button className="inline-flex items-center gap-2 rounded-xl border bg-[#5670F7] px-4 py-2 text-sm font-medium text-[#FDFFFF] hover:bg-blue-600 cursor-pointer">
               <FileDown className="h-4 w-4" /> Export
             </button>
           </div>
@@ -291,7 +290,7 @@ const QuizPage: React.FC = () => {
                     <TableCell>
                       <div className="flex items-center gap-2">
                         <button
-                          className="text-gray-600 hover:text-gray-800"
+                          className="text-green-700 cursor-pointer rounded -2xl border-2 bg-gray-100 hover:text-green-800"
                           aria-label="View"
                           onClick={() => {
                             setViewRow({
@@ -312,7 +311,7 @@ const QuizPage: React.FC = () => {
                         </button>
 
                         <button
-                          className="text-gray-600 hover:text-gray-800"
+                          className="text-blue-500 cursor-pointer rounded -2xl border-2 bg-gray-100 hover:text-blue-700"
                           aria-label="Edit"
                           onClick={() => {
                             setEditRow({
@@ -330,7 +329,7 @@ const QuizPage: React.FC = () => {
                         </button>
 
                         <button
-                          className="text-red-500 hover:text-red-700"
+                          className="text-red-500 cursor-pointer rounded -2xl border-2 bg-gray-100 hover:text-red-700"
                           aria-label="Delete"
                           onClick={() => setDeleteRow(r)}
                         >

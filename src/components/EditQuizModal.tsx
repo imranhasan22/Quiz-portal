@@ -74,20 +74,20 @@ export default function EditQuizModal({
   // Keep the wrapper mounted while a popup is showing
   if (!open && !showSuccess && !showFailure) return null;
 
-  const submit = handleSubmit( (data) => {
-    
-      if (!data.process || !data.quizTitle.trim() || !data.quizId.trim()) {
-        setShowFailure(true);
-        return;
-      }
-       onSave(data);
-      setShowSuccess(true);
-    
+  const submit = handleSubmit((data) => {
+
+    if (!data.process || !data.quizTitle.trim() || !data.quizId.trim()) {
+      setShowFailure(true);
+      return;
+    }
+    onSave(data);
+    setShowSuccess(true);
+
   });
 
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center">
-   
+
 
       {/* dialog (only when editing) */}
       {open && initialData && (
@@ -135,7 +135,7 @@ export default function EditQuizModal({
               <label className="mb-1 block text-sm text-gray-600">Quiz ID</label>
               <input
                 {...register("quizId")}
-              
+
                 className="w-full rounded-lg border border-gray-300 bg-gray-50 px-4 py-2 text-sm text-gray-800"
               />
             </div>
@@ -191,7 +191,11 @@ export default function EditQuizModal({
             <div className="md:col-span-2 mt-4">
               <button
                 type="submit"
-                className="w-full rounded-xl bg-gray-800 px-6 py-2 text-sm font-medium text-white hover:bg-gray-700 disabled:opacity-60"
+
+
+                className={`w-full rounded-md px-4 py-2 text-sm font-medium text-white shadow-md transition duration-200
+                ${!isDirty ? "bg-blue-600 cursor-not-allowed" : "bg-blue-600 hover:bg-blue-700 cursor-pointer hover:shadow-lg"}`}
+
                 disabled={!isDirty}
                 title={!isDirty ? "Change something to enable Edit" : undefined}
               >
@@ -228,7 +232,7 @@ export default function EditQuizModal({
                 setShowFailure(false);
                 onClose();
               }}
-              className="w-full rounded-lg bg-gradient-to-r from-red-500 to-rose-600 px-4 py-2 text-sm font-medium text-white shadow-md transition-all duration-200 hover:scale-[1.02] hover:shadow-lg focus:outline-none focus:ring-2 focus:ring-red-400 focus:ring-offset-2"
+              className="w-full rounded-lg bg-gradient-to-r from-red-500 to-rose-600 px-4 py-2 text-sm font-medium cursor-pointer text-white shadow-md transition-all duration-200 hover:scale-[1.02] hover:shadow-lg focus:outline-none focus:ring-2 focus:ring-red-400 focus:ring-offset-2"
             >
               Close
             </button>
@@ -257,7 +261,7 @@ export default function EditQuizModal({
                 setShowSuccess(false);
                 onClose();
               }}
-              className="w-full rounded-lg bg-gradient-to-r from-green-500 to-emerald-600 px-4 py-2 text-sm font-medium text-white shadow-md transition-all duration-200 hover:scale-[1.02] hover:shadow-lg focus:outline-none focus:ring-2 focus:ring-green-400 focus:ring-offset-2"
+              className="w-full rounded-lg bg-gradient-to-r from-green-500 to-emerald-600 px-4 py-2 text-sm font-medium cursor-pointer text-white shadow-md transition-all duration-200 hover:scale-[1.02] hover:shadow-lg focus:outline-none focus:ring-2 focus:ring-green-400 focus:ring-offset-2"
             >
               Close
             </button>

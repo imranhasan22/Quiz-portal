@@ -116,7 +116,6 @@ const AddUserModal: React.FC<AddUserModalProps> = ({ open, onClose, onSubmit }) 
                             />
                         </div>
 
-                        {/* Phone Number */}
                         <div>
                             <label className="mb-1 block text-sm font-medium text-gray-600">Phone Number</label>
                             <input
@@ -127,7 +126,7 @@ const AddUserModal: React.FC<AddUserModalProps> = ({ open, onClose, onSubmit }) 
                             />
                         </div>
 
-                        {/* Process */}
+                       
                         <div>
                             <label className="mb-1 block text-sm font-medium text-gray-600">Process Name</label>
                             <div className="relative">
@@ -209,7 +208,7 @@ const AddUserModal: React.FC<AddUserModalProps> = ({ open, onClose, onSubmit }) 
                     <div className="py-4">
                         <button
                             type="submit" // Handle form submission via the form tag
-                            className="w-full rounded-md bg-blue-600 px-4 py-2 text-sm font-medium text-white hover:bg-blue-700 shadow-md hover:shadow-lg transition duration-200"
+                            className="w-full rounded-md bg-blue-600 cursor-pointer px-4 py-2 text-sm font-medium text-white hover:bg-blue-700 shadow-md hover:shadow-lg transition duration-200"
                         >
                             Submit
                         </button>
@@ -243,7 +242,7 @@ const AddUserModal: React.FC<AddUserModalProps> = ({ open, onClose, onSubmit }) 
                                 setShowFailure(false);
                                 onClose();
                             }}
-                            className="w-full rounded-lg bg-gradient-to-r from-red-500 to-rose-600 px-4 py-2 text-sm font-medium text-white shadow-md transition-all duration-200 hover:scale-[1.02] hover:shadow-lg focus:outline-none focus:ring-2 focus:ring-red-400 focus:ring-offset-2"
+                            className="w-full rounded-lg bg-gradient-to-r from-red-500 to-rose-600 px-4 py-2 text-sm font-medium cursor-pointer text-white shadow-md transition-all duration-200 hover:scale-[1.02] hover:shadow-lg focus:outline-none focus:ring-2 focus:ring-red-400 focus:ring-offset-2"
                         >
                             Close
                         </button>

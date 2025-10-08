@@ -33,7 +33,7 @@ const SelectField: React.FC<{
         className={[
           "appearance-none w-full rounded-2xl border border-gray-400 bg-white",
           "px-4 py-2 text-sm text-gray-900",
-          leftIcon ? "pl-4" : "",
+          leftIcon ? "pl-9" : "",
         ].join(" ")}
       >
         {placeholder && (
@@ -255,7 +255,7 @@ export default function ResultPage() {
 
 
             <button
-              className="ml-auto inline-flex items-center gap-2 rounded-xl border border-gray-300 bg-gray-200 px-4 py-2 text-sm font-medium text-gray-900 hover:bg-gray-300"
+              className="ml-auto inline-flex items-center gap-2 rounded-xl border border bg-[#5670F7] px-4 py-2 text-sm font-medium text-[#FDFFFF] hover:bg-blue-600 cursor-pointer"
               onClick={() => console.log("export")}
             >
               <FileDown className="h-4 w-4" /> Export
@@ -311,7 +311,7 @@ export default function ResultPage() {
                     <TableCell>
                       <div className="flex items-center gap-2">
                         <button
-                          className="text-gray-600 hover:text-gray-800"
+                          className="text-green-600 cursor-pointer rounded -2xl border-2 bg-gray-100 hover:text-green-700"
                           aria-label="View"
                           onClick={() => {
                             setViewRow({
@@ -330,7 +330,7 @@ export default function ResultPage() {
                         </button>
 
                         <button
-                          className="text-gray-600 hover:text-gray-800"
+                          className="text-blue-500 cursor-pointer rounded -2xl border-2 bg-gray-100 hover:text-blue-700"
                           aria-label="Download"
                           onClick={() => {
                            
@@ -353,7 +353,7 @@ export default function ResultPage() {
                         </button>
 
                         <button
-                          className="text-red-500 hover:text-red-700"
+                          className="text-red-500 cursor-pointer rounded -2xl border-2 bg-gray-100 hover:text-red-700"
                           aria-label="Delete"
                           onClick={() => setDeleteRow(r)}
                         >

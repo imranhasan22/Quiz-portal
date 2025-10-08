@@ -92,7 +92,7 @@ function Loginpage({ onLogin }: LoginPageProps) {
             {/* Login Button */}
             <button
               type="submit"
-              className="w-full bg-green-500 hover:bg-green-600 text-white py-3 rounded-full font-medium text-base"
+              className="w-full bg-green-500 hover:bg-green-600 text-white cursor-pointer py-3 rounded-full font-medium text-base"
             >
               Login
             </button>

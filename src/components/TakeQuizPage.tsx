@@ -188,32 +188,39 @@ const TakeQuizPage: React.FC = () => {
         </form>
 
         {/* right: navigator */}
-        <aside className="rounded-xl border bg-white shadow-sm p-4 h-fit">
-          <div className="grid grid-cols-5 gap-2">
-            {ALL_QUESTIONS.map((q) => {
-              const answered = answers[q.id] !== undefined;
-              return (
-                <button
-                  key={q.id}
-                  className={`h-10 rounded-lg border text-sm ${
-                    answered
-                      ? "bg-gray-900 text-white border-gray-900"
-                      : "bg-gray-100 text-gray-800 border-gray-200 hover:bg-gray-200"
-                  }`}
-                  onClick={() => {
-                    const el = document.querySelector(`[data-q="${q.id}"]`);
-                    if (el) el.scrollIntoView({ behavior: "smooth", block: "start" });
-                  }}
-                >
-                  {q.id}
-                </button>
-              );
-            })}
-          </div>
-          <p className="mt-3 text-center text-sm text-gray-500">
-            Answered {answeredCount} / {ALL_QUESTIONS.length}
-          </p>
-        </aside>
+      <aside className="rounded-xl sticky top-16 border bg-white shadow-sm p-4 h-fit">
+  <div className="grid grid-cols-5 gap-2">
+    {ALL_QUESTIONS.map((q) => {
+      const answered = answers[q.id] !== undefined;
+      return (
+        <button
+          key={q.id}
+          className={`h-10 rounded-lg border text-sm ${
+            answered
+              ? "bg-gray-900 text-white border-gray-900"
+              : "bg-gray-100 text-gray-800 border-gray-200 hover:bg-gray-200"
+          }`}
+          onClick={() => {
+            const el = document.querySelector(`[data-q="${q.id}"]`) as HTMLElement;
+            if (el) {
+
+              window.scrollTo({
+                top: el.offsetTop - 100, 
+                behavior: "smooth", 
+              });
+            }
+          }}
+        >
+          {q.id}
+        </button>
+      );
+    })}
+  </div>
+  <p className="mt-3 text-center text-sm text-gray-500">
+    Answered {answeredCount} / {ALL_QUESTIONS.length}
+  </p>
+</aside>
+
       </div>
 
       {/* Confirm Modal */}
@@ -241,28 +248,7 @@ const TakeQuizPage: React.FC = () => {
         </Modal>
       )}
 
-      {/* Success Modal */}
-      {/* {showSuccess && (
-        <Modal>
-          <div className="mx-auto mb-3 flex h-12 w-12 items-center justify-center rounded-full bg-gray-100">
-            <CheckCircle className="h-6 w-6 text-gray-900" />
-          </div>
-           <p className="mb-6 text-center text-lg font-semibold text-gray-800">
-              🎉 Successfully submitted <br/> Quiz.
-            </p>
-          <div className="mt-6 flex justify-center">
-            <button
-              className="rounded-xl bg-gray-900 px-6 py-2 font-medium text-white hover:bg-black"
-              onClick={() => {
-                setShowSuccess(false);
-                navigate("/userquiz");
-              }}
-            >
-              Close
-            </button>
-          </div>
-        </Modal>
-      )} */}
+     
 
        {showSuccess && (
          <Modal> 

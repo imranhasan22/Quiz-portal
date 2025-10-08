@@ -52,7 +52,7 @@ const Topbar: React.FC<TopbarProps> = ({
           <Bell className="h-7 w-7" />
         </button>
 
-        {/* Profile: avatar + name + chevron => ONE trigger */}
+       
         <div className="relative" ref={menuRef}>
           {rightExtra ?? (
             <button

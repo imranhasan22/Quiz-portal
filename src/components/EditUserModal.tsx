@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useMemo } from "react";
 import { ChevronDown, CheckCircle2, XCircle } from "lucide-react";
 
 // Define the UserRow type
@@ -27,6 +27,8 @@ const EditUserModal: React.FC<EditUserModalProps> = ({ open, onClose, onSubmit, 
   const [showSuccess, setShowSuccess] = useState(false);
   const [showFailure, setShowFailure] = useState(false);
 
+  const [isDirty, setIsDirty] = useState(false); // Track dirty state
+
   // Close modal with ESC key
   useEffect(() => {
     const onKey = (e: KeyboardEvent) => e.key === "Escape" && onClose();
@@ -41,6 +43,14 @@ const EditUserModal: React.FC<EditUserModalProps> = ({ open, onClose, onSubmit, 
     }
   }, [user]);
 
+  // Check if any field is changed from the original user data
+  useEffect(() => {
+    if (user && form) {
+      const isFormDirty = Object.keys(form).some((key) => form[key as keyof UserRow] !== user[key as keyof UserRow]);
+      setIsDirty(isFormDirty); // Set isDirty state based on changes
+    }
+  }, [form, user]);
+
   if (!open || !user) return null; // Return null if modal is not open or user is null
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
@@ -50,25 +60,24 @@ const EditUserModal: React.FC<EditUserModalProps> = ({ open, onClose, onSubmit, 
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    
-    if (!form?.process || !form?.name || !form?.employeeId || !form?.phone || !form?.status) {
-      setShowFailure(true);
-       return
-    }
-    else {
-      onSubmit?.(form)
-      setShowSuccess(true);
-    }
- 
-  };
 
+    // Validate if all required fields are filled out
+    if (!form?.process || !form?.name || !form?.employeeId || !form?.phone || !form?.status) {
+      setShowFailure(true); // Show failure popup if any required field is missing
+      return;
+    }
+
+    onSubmit?.(form); // Submit the data if validation passes
+    setShowSuccess(true); // Show success popup after successful submission
+  };
 
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center">
       <div className="absolute inset-0 bg-black/40" />
-      <div className="relative z-10 w-[90vw] max-w-[720px] rounded-xl border bg-white shadow-2xl transform transition-all"
-        onClick={(e) => e.stopPropagation()} // Prevent closing when clicking outiside the modal
-        >
+      <div
+        className="relative z-10 w-[90vw] max-w-[720px] rounded-xl border bg-white shadow-2xl transform transition-all"
+        onClick={(e) => e.stopPropagation()} // Prevent closing when clicking outside the modal
+      >
         {/* Modal Header */}
         <div className="flex items-center justify-between border-b px-6 py-4">
           <h3 className="text-lg font-semibold text-gray-700">Edit User</h3>
@@ -209,7 +218,13 @@ const EditUserModal: React.FC<EditUserModalProps> = ({ open, onClose, onSubmit, 
           <div className="px-6 py-4">
             <button
               type="submit"
-              className="w-full rounded-md bg-blue-600 px-4 py-2 text-sm font-medium text-white hover:bg-blue-700 shadow-md hover:shadow-lg transition duration-200"
+              
+                className={`w-full rounded-md px-4 py-2 text-sm font-medium text-white shadow-md transition hover:bg-blue-700 duration-200
+                ${!isDirty ? "bg-blue-600 cursor-not-allowed" : "bg-blue-600 hover:bg-blue-700 hover:shadow-lg cursor-pointer"}`}
+             
+              disabled={!isDirty} // Disable button if no changes are made
+              
+              title={!isDirty ? "Change something to enable Edit" : undefined} // Tooltip when disabled
             >
               Save
             </button>
@@ -243,7 +258,7 @@ const EditUserModal: React.FC<EditUserModalProps> = ({ open, onClose, onSubmit, 
                 setShowFailure(false);
                 onClose();
               }}
-              className="w-full rounded-lg bg-gradient-to-r from-red-500 to-rose-600 px-4 py-2 text-sm font-medium text-white shadow-md transition-all duration-200 hover:scale-[1.02] hover:shadow-lg focus:outline-none focus:ring-2 focus:ring-red-400 focus:ring-offset-2"
+              className="w-full rounded-lg bg-gradient-to-r from-red-500 to-rose-600 px-4 py-2 text-sm font-medium text-white cursor-pointer shadow-md transition-all duration-200 hover:scale-[1.02] hover:shadow-lg focus:outline-none focus:ring-2 focus:ring-red-400 focus:ring-offset-2"
             >
               Close
             </button>
@@ -272,7 +287,7 @@ const EditUserModal: React.FC<EditUserModalProps> = ({ open, onClose, onSubmit, 
                 setShowSuccess(false);
                 onClose();
               }}
-              className="w-full rounded-lg bg-gradient-to-r from-green-500 to-emerald-600 px-4 py-2 text-sm font-medium text-white shadow-md transition-all duration-200 hover:scale-[1.02] hover:shadow-lg focus:outline-none focus:ring-2 focus:ring-green-400 focus:ring-offset-2"
+              className="w-full rounded-lg bg-gradient-to-r from-green-500 to-emerald-600 px-4 py-2 text-sm font-medium text-white cursor-pointer shadow-md transition-all duration-200 hover:scale-[1.02] hover:shadow-lg focus:outline-none focus:ring-2 focus:ring-green-400 focus:ring-offset-2"
             >
               Close
             </button>
