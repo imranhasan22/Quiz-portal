@@ -1,4 +1,4 @@
-// components/EditQuizModal.tsx
+
 import React, { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { X, ChevronDown, XCircle, CheckCircle2 } from "lucide-react";
