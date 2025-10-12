@@ -16,7 +16,7 @@ import TakeQuizPage from './components/TakeQuizPage';
 import CreateQuizModal from './components/CreateQuizModal';
 import CalendarPage from './components/CalendarPage';
 import UserSettings from './components/UserSettings';
-
+import  QuizDetails  from './components/QuizDetails';
 
 
 const AppRoutes: React.FC = () => {
@@ -69,6 +69,9 @@ const AppRoutes: React.FC = () => {
           {/* User quiz */}
           <Route path="/userquiz" element={<UserQuiz />} />
           <Route path="/userquiz/take/:quizId" element={<TakeQuizPage />} />
+          <Route path="/userquiz/details/:quizId" element={<QuizDetails/>}/>
+          
+
           <Route path="/calendar" element={<CalendarPage/>}/>
           <Route path="/usersetting" element={<UserSettings/>}/>
         </Route>

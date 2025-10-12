@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { CalendarDays, Award, Clock } from "lucide-react";
 import UserQuizDetails, { type QuizDetails } from "./UserQuizDetails";
 import { useNavigate } from 'react-router-dom';
+
 type Tab = "pending" | "scores";
 
 interface BaseQuiz {
@@ -11,21 +12,19 @@ interface BaseQuiz {
 }
 
 interface PendingQuiz extends BaseQuiz {
-    dateLabel: string;              // e.g. "Today" | "25 Jun 2024"
-    time?: string;                  // optional time for upcoming
+    dateLabel: string;
+    time?: string;
     status: "today" | "upcoming";
-    remaining?: string;             // only for "today"
+    remaining?: string;
 }
 
 interface ScoredQuiz extends BaseQuiz {
-    date: string;                   // e.g. "15 Jun 2024"
-    time: string;                   // e.g. "4:30 PM"
-    score: string;                  // e.g. "15/20"
+    date: string;
+    time: string;
+    score: string;
 }
 
-/** ---------- Mock Data (replace with API later) ---------- */
-/* PENDING এখন PendingQuiz + QuizDetails দুইটাই রাখছি,
-   যাতে একই অবজেক্ট কার্ডেও দেখাতে পারি, আবার মোডালেও পাঠাতে পারি */
+/** ---------- Mock Data ---------- */
 const PENDING: (PendingQuiz & QuizDetails)[] = [
     {
         id: 1,
@@ -34,7 +33,6 @@ const PENDING: (PendingQuiz & QuizDetails)[] = [
         dateLabel: "Today",
         status: "today",
         remaining: "4 Hours 20 min Left!",
-        // 👇 details for modal
         startDate: "24 Jun 2024, 4:30 PM",
         endDate: "24 Jun 2024, 5:00 PM",
         duration: "30 minutes",
@@ -53,7 +51,6 @@ const PENDING: (PendingQuiz & QuizDetails)[] = [
         dateLabel: "25 Jun 2024",
         time: "4:30 PM",
         status: "upcoming",
-
         startDate: "25 Jun 2024, 4:30 PM",
         endDate: "25 Jun 2024, 5:00 PM",
         duration: "30 minutes",
@@ -72,7 +69,6 @@ const PENDING: (PendingQuiz & QuizDetails)[] = [
         dateLabel: "21 Jun 2024",
         time: "10:30 AM",
         status: "upcoming",
-
         startDate: "21 Jun 2024, 10:30 AM",
         endDate: "21 Jun 2024, 11:00 AM",
         duration: "30 minutes",
@@ -91,7 +87,6 @@ const PENDING: (PendingQuiz & QuizDetails)[] = [
         dateLabel: "08 Jun 2024",
         time: "02:00 PM",
         status: "upcoming",
-
         startDate: "08 Jun 2024, 2:00 PM",
         endDate: "08 Jun 2024, 2:30 PM",
         duration: "30 minutes",
@@ -156,7 +151,7 @@ const UserQuiz: React.FC = () => {
                             <button
                                 key={q.id}
                                 onClick={() => {
-                                    setActiveQuiz(q);    // 👈 Pending card ক্লিক করলে modal খুলবে
+                                    setActiveQuiz(q);
                                     setOpen(true);
                                 }}
                                 className="text-left bg-gray-100 rounded-xl p-4 shadow-sm hover:shadow-md transition focus:outline-none focus:ring-2 focus:ring-gray-900/20"
@@ -188,8 +183,6 @@ const UserQuiz: React.FC = () => {
                         ))}
                     </div>
 
-
-
                     {/* Modal for Pending Quiz */}
                     <UserQuizDetails
                         open={open}
@@ -204,7 +197,11 @@ const UserQuiz: React.FC = () => {
             ) : (
                 <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
                     {SCORES.map((q) => (
-                        <div key={q.id} className="bg-gray-100 rounded-xl p-4 shadow-sm hover:shadow-md transition">
+                        <button
+                            key={q.id}
+                            onClick={() => navigate(`/userquiz/details/${q.id}`)}
+                            className="text-left bg-gray-100 rounded-xl p-4 shadow-sm hover:shadow-md transition focus:outline-none focus:ring-2 focus:ring-gray-900/20"
+                        >
                             <h3 className="text-lg font-semibold text-gray-900 mb-1">{q.title}</h3>
                             <p className="text-sm text-gray-500 mb-4">Created by: {q.createdBy}</p>
 
@@ -221,7 +218,7 @@ const UserQuiz: React.FC = () => {
                                     <span>{q.score}</span>
                                 </div>
                             </div>
-                        </div>
+                        </button>
                     ))}
                 </div>
             )}

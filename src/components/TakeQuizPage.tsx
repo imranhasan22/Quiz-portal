@@ -98,7 +98,7 @@ const TakeQuizPage: React.FC = () => {
      
     <div className="fixed right-11 top-3/4 text-sm text-gray-700 z-50">
   <span>
-    Remaining Time : <span className=" text-lg font-semibold">{mm} min {ss} sec</span>
+     <span className=" text-lg font-semibold">{mm} min {ss} sec</span> <br/> Remaining Time 
   </span>
 </div>
 
