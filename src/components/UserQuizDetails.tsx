@@ -48,7 +48,7 @@ const UserQuizDetails: React.FC<Props> = ({ open, onClose, quiz, onStart }) => {
         <div className="relative w-full max-w-2xl rounded-2xl bg-white p-6 shadow-2xl">
           <button
             onClick={onClose}
-            className="absolute right-4 top-4 inline-flex h-8 w-8 items-center justify-center rounded-full hover:bg-gray-100"
+            className="absolute right-4 top-4 inline-flex h-8 w-8 items-center justify-center cursor-pointer rounded-full hover:bg-gray-100"
             aria-label="Close"
           >
             <X className="h-5 w-5 text-gray-600" />
@@ -75,13 +75,13 @@ const UserQuizDetails: React.FC<Props> = ({ open, onClose, quiz, onStart }) => {
           <div className="mt-8 flex items-center justify-end gap-3">
             <button
               onClick={onClose}
-              className="rounded-xl border border-gray-300 px-4 py-2 text-gray-700 hover:bg-gray-50"
+              className="rounded-xl bg-[#CFF4E8] px-4 py-2 text-[#5670F7] cursor-pointer hover:bg-gray-300"
             >
-              Cancel
+              Close
             </button>
             <button
               onClick={() => quiz && onStart?.(quiz.id)}   
-              className="rounded-xl bg-gray-900 px-4 py-2 font-medium text-white hover:bg-black"
+              className="rounded-xl bg-[#5670F7] cursor-pointer px-4 py-2 font-medium text-white hover:bg-blue-600"
             >
               Start Quiz
             </button>

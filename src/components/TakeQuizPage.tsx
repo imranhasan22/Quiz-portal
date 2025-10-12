@@ -1,6 +1,6 @@
 import React, { useEffect, useMemo, useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
-import { Circle, CheckCircle2, CheckCircle, XCircle } from "lucide-react";
+import { Circle, CheckCircle2,XCircle } from "lucide-react";
 
 /** mock questions — replace with API */
 type Question = { id: number; text: string; options: string[] };

@@ -42,7 +42,7 @@ type TitleRule = {
   pattern: string;
   title: string | ((params: Record<string, string>) => string);
   icon?: React.ReactNode;
-  end?: boolean; 
+  end?: boolean;
 };
 
 const ROUTE_TITLES: TitleRule[] = [
@@ -66,8 +66,15 @@ const ROUTE_TITLES: TitleRule[] = [
     icon: <ClipboardPlus className="h-5 w-5" />,
     end: true,
   },
-  {pattern: '/calendar', title: 'Calendar', icon: <CalendarDays className="h-5 w-5" />, end: true},
-  {pattern: '/usersetting',title:'UserSettings',icon:<Settings className='h-5 w-5'/>,end:true}
+  {
+  pattern: '/userquiz/details/:quizId',
+  title: `Quiz Details`,
+  icon: <ClipboardPlus className="h-5 w-5" />,
+  end: true,
+},
+
+  { pattern: '/calendar', title: 'Calendar', icon: <CalendarDays className="h-5 w-5" />, end: true },
+  { pattern: '/usersetting', title: 'UserSettings', icon: <Settings className='h-5 w-5' />, end: true }
 ];
 
 /** pick most specific (longest) matched rule; else derive title from URL last segment */
@@ -108,8 +115,8 @@ const Sidebar: React.FC<{ pathname: string }> = ({ pathname }) => {
   const isActive = (pattern: string) => !!matchPath({ path: pattern, end: true }, pathname);
 
   // userquiz active when /userquiz OR /userquiz/take/:quizId
-  const isUserQuizActive =
-    isActive('/userquiz') || !!matchPath({ path: '/userquiz/take/:quizId', end: true }, pathname);
+  // const isUserQuizActive =
+  //   isActive('/userquiz') || !!matchPath({ path: '/userquiz/take/:quizId', end: true }, pathname);
 
   return (
     <aside className="hidden w-64 shrink-0 border-r bg-white p-4 md:flex md:flex-col">
@@ -124,9 +131,9 @@ const Sidebar: React.FC<{ pathname: string }> = ({ pathname }) => {
         <NavItem icon={<FileBarChart className="h-5 w-5" />} label="Result" to="/result" active={isActive('/result')} />
         <NavItem icon={<FileBarChart className="h-5 w-5" />} label="Report" to="/report" active={isActive('/report')} />
         <NavItem icon={<Settings className="h-5 w-5" />} label="Settings" to="/setting" active={isActive('/setting')} />
-        <NavItem icon={<ClipboardList className="h-5 w-5" />} label="userQuiz" to="/userquiz" active={isUserQuizActive} />
+        <NavItem icon={<ClipboardList className="h-5 w-5" />} label="userQuiz" to="/userquiz" active={isActive('/userquiz')} />
         <NavItem icon={<CalendarDays className="h-5 w-5" />} label="Calendar" to="/calendar" active={isActive('/calendar')} />
-        <NavItem icon={<Settings className="h-5 w-5"/>} label="UserSettings" to="/usersetting" active={isActive('/usersetting')} />
+        <NavItem icon={<Settings className="h-5 w-5" />} label="UserSettings" to="/usersetting" active={isActive('/usersetting')} />
       </nav>
     </aside>
   );

@@ -101,10 +101,10 @@ const PENDING: (PendingQuiz & QuizDetails)[] = [
 ];
 
 const SCORES: ScoredQuiz[] = [
-    { id: 11, title: "Nagad Quiz 1", createdBy: "Admin", date: "15 Jun 2024", time: "4:30 PM", score: "15/20" },
-    { id: 12, title: "Nagad Quiz 2", createdBy: "Admin", date: "16 Jun 2024", time: "1:30 PM", score: "19/20" },
-    { id: 13, title: "Nagad Quiz 3", createdBy: "Admin", date: "08 Jun 2024", time: "02:30 PM", score: "08/20" },
-    { id: 14, title: "Nagad Quiz 4", createdBy: "Admin", date: "03 Jun 2024", time: "11:30 AM", score: "12/20" },
+    { id: 1, title: "Nagad Quiz 1", createdBy: "Admin", date: "15 Jun 2024", time: "4:30 PM", score: "15/20" },
+    { id: 2, title: "Nagad Quiz 2", createdBy: "Admin", date: "16 Jun 2024", time: "1:30 PM", score: "19/20" },
+    { id: 3, title: "Nagad Quiz 3", createdBy: "Admin", date: "08 Jun 2024", time: "02:30 PM", score: "08/20" },
+    { id: 4, title: "Nagad Quiz 4", createdBy: "Admin", date: "03 Jun 2024", time: "11:30 AM", score: "12/20" },
 ];
 
 /** ---------- Utility ---------- */
