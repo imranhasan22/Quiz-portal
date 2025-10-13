@@ -17,7 +17,7 @@ import CreateQuizModal from './components/CreateQuizModal';
 import CalendarPage from './components/CalendarPage';
 import UserSettings from './components/UserSettings';
 import  QuizDetails  from './components/QuizDetails';
-
+import Role from './components/Role';
 
 const AppRoutes: React.FC = () => {
   const [isLoggedIn, setIsLoggedIn] = useState<boolean>(() => {
@@ -57,9 +57,8 @@ const AppRoutes: React.FC = () => {
           <Route path="/user" element={<UserPage />} />
           <Route path="/questions" element={<Question />} />
 
-          {/* Quiz list */}
           <Route path="/quiz" element={<QuizPage />} />
-          {/* NEW: Create Quiz page */}
+        
           <Route path="/quiz/create" element={<CreateQuizModal/>} />
 
           <Route path="/result" element={<ResultPage />} />
@@ -74,6 +73,7 @@ const AppRoutes: React.FC = () => {
 
           <Route path="/calendar" element={<CalendarPage/>}/>
           <Route path="/usersetting" element={<UserSettings/>}/>
+          <Route path="/role" element={<Role/>}/>
         </Route>
 
         {/* 404 */}

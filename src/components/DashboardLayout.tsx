@@ -11,6 +11,7 @@ import {
   FileText,
   FileQuestion,
   ClipboardPlus,
+  UserCog,
   CalendarDays,
 } from 'lucide-react';
 import img from '../assets/loginpageImage/Vector.png';
@@ -67,14 +68,15 @@ const ROUTE_TITLES: TitleRule[] = [
     end: true,
   },
   {
-  pattern: '/userquiz/details/:quizId',
-  title: `Quiz Details`,
-  icon: <ClipboardPlus className="h-5 w-5" />,
-  end: true,
-},
+    pattern: '/userquiz/details/:quizId',
+    title: `Quiz Details`,
+    icon: <ClipboardPlus className="h-5 w-5" />,
+    end: true,
+  },
 
   { pattern: '/calendar', title: 'Calendar', icon: <CalendarDays className="h-5 w-5" />, end: true },
-  { pattern: '/usersetting', title: 'UserSettings', icon: <Settings className='h-5 w-5' />, end: true }
+  { pattern: '/usersetting', title: 'UserSettings', icon: <Settings className='h-5 w-5' />, end: true },
+  { pattern:'/role',title:'Role',icon :<UserCog className='h-5 w-5'/>,end:true }
 ];
 
 /** pick most specific (longest) matched rule; else derive title from URL last segment */
@@ -134,6 +136,7 @@ const Sidebar: React.FC<{ pathname: string }> = ({ pathname }) => {
         <NavItem icon={<ClipboardList className="h-5 w-5" />} label="userQuiz" to="/userquiz" active={isActive('/userquiz')} />
         <NavItem icon={<CalendarDays className="h-5 w-5" />} label="Calendar" to="/calendar" active={isActive('/calendar')} />
         <NavItem icon={<Settings className="h-5 w-5" />} label="UserSettings" to="/usersetting" active={isActive('/usersetting')} />
+        <NavItem icon={<UserCog className="h-5 w-5" />} label="Role" to="/role" active={isActive('/role')} />
       </nav>
     </aside>
   );
