@@ -14,6 +14,7 @@ import {
 } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 
+// Types and permissions setup
 type PermissionMap = Record<string, boolean>;
 type RolePermissions = Record<string, PermissionMap>;
 type Group = {
@@ -102,7 +103,7 @@ const SettingsPage: React.FC = () => {
   const [rolePerms, setRolePerms] = useState<RolePermissions>(emptyRolePerms);
   const [showSuccess, setShowSuccess] = useState(false);
   const [showFailure, setShowFailure] = useState(false);
- 
+  const [saving, setSaving] = useState(false);
   const navigate = useNavigate();
 
   const current: PermissionMap | null = useMemo(() => {
@@ -110,6 +111,7 @@ const SettingsPage: React.FC = () => {
     return rolePerms[selectedRole];
   }, [rolePerms, selectedRole]);
 
+  // Toggle single checkbox
   const toggle = (fullKey: string) => {
     if (!selectedRole) return;
     setRolePerms((prev) => ({
@@ -118,6 +120,7 @@ const SettingsPage: React.FC = () => {
     }));
   };
 
+  // Toggle all checkboxes of a group
   const setGroupAll = (groupKey: string, value: boolean) => {
     if (!selectedRole) return;
     setRolePerms((prev) => {
@@ -129,6 +132,7 @@ const SettingsPage: React.FC = () => {
     });
   };
 
+  // Header checkbox (indeterminate for partial selection)
   const useHeaderCheckbox = (groupKey: string) => {
     const all = GROUPS.find((g) => g.key === groupKey)!.items.map((it) => `${groupKey}.${it.key}`);
     const checkedCount = all.filter((k) => current?.[k]).length;
@@ -148,9 +152,6 @@ const SettingsPage: React.FC = () => {
 
   const canSave = !!selectedRole;
 
-  const resetRolePerms = (pm: PermissionMap): PermissionMap =>
-    Object.fromEntries(Object.keys(pm).map((k) => [k, false])) as PermissionMap;
-
   const handleSave = async () => {
     if (!canSave) return;
     try {
@@ -161,14 +162,12 @@ const SettingsPage: React.FC = () => {
         console.log("Selected Role:", selectedRole);
         console.log("Permissions:", payload);
 
-        // ✅ Reset permissions
+        // Reset role name & all permissions
+        setSelectedRole("");
         setRolePerms((prev) => ({
           ...prev,
-          [selectedRole]: resetRolePerms(prev[selectedRole]),
+          [selectedRole]: Object.fromEntries(Object.keys(prev[selectedRole]).map((k) => [k, false])),
         }));
-
-        // ✅ Reset role name input
-        setSelectedRole("");
 
         setShowSuccess(true);
       } else {
@@ -186,36 +185,64 @@ const SettingsPage: React.FC = () => {
         <main className="mx-auto w-full max-w-[1300px] px-4 py-5 md:px-6">
           <h2 className="text-2xl font-semibold mb-6">Add Role</h2>
 
-          {/* Role name input */}
-          <div className="mb-4">
-            <label className="mb-1 block text-[13px] font-medium text-gray-800">
-              Role Name
-            </label>
-            <input
-              type="text"
-              value={selectedRole}
-              onChange={(e) => {
-                const newRole = e.target.value.trim();
-                setSelectedRole(newRole);
+          {/* Role Name + Select All */}
+          <div className="mb-4 flex items-end gap-3">
+            {/* Role Name Input */}
+            <div className="flex-1">
+              <label className="mb-1 block text-[13px] font-medium text-gray-800">
+                Role Name
+              </label>
+              <input
+                type="text"
+                value={selectedRole}
+                onChange={(e) => {
+                  const newRole = e.target.value.trim();
+                  setSelectedRole(newRole);
 
-                //  Always reset permissions for new typed role
-                setRolePerms((prev) => {
-                  if (!newRole) return prev;
-                  const newPerms: PermissionMap = {};
-                  GROUPS.forEach((g) =>
-                    g.items.forEach((it) => {
-                      newPerms[`${g.key}.${it.key}`] = false;
-                    })
-                  );
-                  return { ...prev, [newRole]: newPerms };
-                });
-              }}
-              placeholder="Enter role name (e.g. Admin)"
-              className="w-full max-w-sm rounded-xl border border-gray-400 px-3 py-1.5 text-[13px] text-gray-900 focus:border-blue-500 focus:ring focus:ring-blue-200"
-            />
+                  // Always create/reset permission for new role
+                  setRolePerms((prev) => {
+                    if (!newRole) return prev;
+                    const newPerms: PermissionMap = {};
+                    GROUPS.forEach((g) =>
+                      g.items.forEach((it) => {
+                        newPerms[`${g.key}.${it.key}`] = false;
+                      })
+                    );
+                    return { ...prev, [newRole]: newPerms };
+                  });
+                }}
+                placeholder="Enter role name (e.g. Admin)"
+                className="w-full max-w-sm rounded-xl border border-gray-400 px-3 py-1.5 text-[13px] text-gray-900 focus:border-blue-500 focus:ring focus:ring-blue-200"
+              />
+            </div>
+
+            {/* Select All Checkbox */}
+            <div className="flex flex-col items-center justify-end">
+              <label className="flex items-center gap-1 text-[13px] font-medium text-gray-800">
+                <input
+                  type="checkbox"
+                  className="h-4 w-4"
+                  checked={
+                    selectedRole
+                      ? Object.values(rolePerms[selectedRole]).every(Boolean)
+                      : false
+                  }
+                  onChange={(e) => {
+                    if (!selectedRole) return;
+                    const value = e.target.checked;
+                    setRolePerms((prev) => {
+                      const next = { ...prev[selectedRole] };
+                      Object.keys(next).forEach((k) => (next[k] = value));
+                      return { ...prev, [selectedRole]: next };
+                    });
+                  }}
+                />
+                Select All
+              </label>
+            </div>
           </div>
 
-          {/* Permission groups */}
+          {/* Permission Groups */}
           <div className="grid grid-cols-1 gap-10 lg:grid-cols-4">
             {GROUPS.map((g) => {
               const hdr = useHeaderCheckbox(g.key);
@@ -264,6 +291,7 @@ const SettingsPage: React.FC = () => {
             })}
           </div>
 
+          {/* Save / Cancel Buttons */}
           <div className="mt-5 flex justify-between">
             <button
               onClick={() => navigate(-1)}
@@ -281,7 +309,7 @@ const SettingsPage: React.FC = () => {
                   : "bg-[#5670F7] text-[#FDFFFF] hover:bg-blue-600"
               }`}
             >
-              Save
+              {saving && <Loader2 className="animate-spin h-4 w-4" />} Save
             </button>
           </div>
         </main>
