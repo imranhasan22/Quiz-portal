@@ -63,7 +63,7 @@ const AppRoutes: React.FC = () => {
 
           <Route path="/result" element={<ResultPage />} />
           <Route path="/report" element={<ReportPage />} />
-          <Route path="/setting" element={<SettingsPage />} />
+          {/* <Route path="/setting" element={<SettingsPage />} /> */}
 
           {/* User quiz */}
           <Route path="/userquiz" element={<UserQuiz />} />
@@ -74,6 +74,7 @@ const AppRoutes: React.FC = () => {
           <Route path="/calendar" element={<CalendarPage/>}/>
           <Route path="/usersetting" element={<UserSettings/>}/>
           <Route path="/role" element={<Role/>}/>
+          <Route path="/role/addrole" element={<SettingsPage/>} /> 
         </Route>
 
         {/* 404 */}

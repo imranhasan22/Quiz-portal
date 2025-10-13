@@ -56,8 +56,8 @@ const ROUTE_TITLES: TitleRule[] = [
   { pattern: '/quiz/create', title: 'New Quiz Creation', icon: <ClipboardPlus className="h-5 w-5" />, end: true },
 
   { pattern: '/result', title: 'Result', icon: <FileBarChart className="h-5 w-5" /> },
-  { pattern: '/report', title: 'Report', icon: <FileBarChart className="h-5 w-5" /> },
-  { pattern: '/setting', title: 'Settings', icon: <Settings className="h-5 w-5" /> },
+  { pattern: '/report', title: 'Report', icon: <FileBarChart className="h-5 w-5" /> },     
+
 
   // UserQuiz pages
   { pattern: '/userquiz', title: 'UserQuiz', icon: <ClipboardPlus className="h-5 w-5" />, end: true },
@@ -76,7 +76,9 @@ const ROUTE_TITLES: TitleRule[] = [
 
   { pattern: '/calendar', title: 'Calendar', icon: <CalendarDays className="h-5 w-5" />, end: true },
   { pattern: '/usersetting', title: 'UserSettings', icon: <Settings className='h-5 w-5' />, end: true },
-  { pattern:'/role',title:'Role',icon :<UserCog className='h-5 w-5'/>,end:true }
+  { pattern:'/role',title:'Role',icon :<UserCog className='h-5 w-5'/>,end:true },
+  { pattern: '/role/addrole', title: 'Add role', icon: <UserCog className="h-5 w-5" />,end:true },
+
 ];
 
 /** pick most specific (longest) matched rule; else derive title from URL last segment */
@@ -132,7 +134,6 @@ const Sidebar: React.FC<{ pathname: string }> = ({ pathname }) => {
         <NavItem icon={<ClipboardList className="h-5 w-5" />} label="Quiz" to="/quiz" active={isActive('/quiz')} />
         <NavItem icon={<FileBarChart className="h-5 w-5" />} label="Result" to="/result" active={isActive('/result')} />
         <NavItem icon={<FileBarChart className="h-5 w-5" />} label="Report" to="/report" active={isActive('/report')} />
-        <NavItem icon={<Settings className="h-5 w-5" />} label="Settings" to="/setting" active={isActive('/setting')} />
         <NavItem icon={<ClipboardList className="h-5 w-5" />} label="userQuiz" to="/userquiz" active={isActive('/userquiz')} />
         <NavItem icon={<CalendarDays className="h-5 w-5" />} label="Calendar" to="/calendar" active={isActive('/calendar')} />
         <NavItem icon={<Settings className="h-5 w-5" />} label="UserSettings" to="/usersetting" active={isActive('/usersetting')} />
@@ -160,6 +161,7 @@ const DashboardLayout: React.FC<DashboardLayoutProps> = ({ onLogout }) => {
           title={pageMeta.title}
           icon={pageMeta.icon}
           userName={userName}
+          onUserProfile={()=>navigate('/usersetting')}
           onSettings={() => navigate('/setting')}
           onChangePassword={() => navigate('/setting')}
           onLogout={() => {

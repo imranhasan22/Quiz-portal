@@ -1,11 +1,12 @@
 // src/components/Topbar.tsx
 import React, { useEffect, useRef, useState } from "react";
-import { Bell, ChevronDown, Lock, LogOut, Settings, UserCircle2 } from "lucide-react";
+import { Bell, ChevronDown, Lock, LogOut, Settings, UserCircle2, UserCog2 } from "lucide-react";
 
 type TopbarProps = {
   title: string;
   userName: string;
   icon?: React.ReactNode;
+  onUserProfile?: () => void;
   onChangePassword?: () => void;
   onSettings?: () => void;
   onLogout?: () => void;
@@ -16,6 +17,7 @@ const Topbar: React.FC<TopbarProps> = ({
   title,
   userName = "",
   icon,
+  onUserProfile,
   onChangePassword,
   onSettings,
   onLogout,
@@ -79,6 +81,19 @@ const Topbar: React.FC<TopbarProps> = ({
               role="menu"
               className="absolute right-0 mt-2 w-48 overflow-hidden rounded-lg border bg-white shadow-lg"
             >
+             
+              <button
+                role="menuitem"
+                className="flex w-full items-center gap-2 px-4 py-2 text-sm hover:bg-gray-100"
+                onClick={() => {
+                  setMenuOpen(false);
+                    onUserProfile ?.();
+                }}
+              >
+                <UserCog2 className="h-4 w-4" />
+                 User Profile
+              </button>
+
               <button
                 role="menuitem"
                 className="flex w-full items-center gap-2 px-4 py-2 text-sm hover:bg-gray-100"
