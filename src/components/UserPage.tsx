@@ -300,13 +300,13 @@ const UserPage: React.FC = () => {
 
             <button
               onClick={() => setAddOpen(true)}
-              className="ml-auto inline-flex items-center cursor-pointer gap-2 rounded-xl border border-gray- bg-[#5670F7] px-4 py-2 text-sm font-medium text-[#FDFFFF] hover:bg-blue-600"
+              className="ml-auto inline-flex items-center cursor-pointer gap-2 rounded-xl border border bg-[#5670F7] px-4 py-2 text-sm font-medium text-[#FDFFFF] hover:bg-blue-600"
             >
               <UserPlus className="h-4 w-4 " /> Add User
             </button>
 
 
-            <button className="ml-auto inline-flex items-center cursor-pointer gap-2 rounded-xl border- bg-[#5670F7] px-4 py-2 text-sm font-medium text-[#FDFFFF] hover:bg-blue-600">
+            <button className="ml-auto inline-flex items-center cursor-pointer gap-2 rounded-xl border bg-[#5670F7] px-4 py-2 text-sm font-medium text-[#FDFFFF] hover:bg-blue-600">
               <Upload className="h-4 w-5" /> Upload User
             </button>
           </div>

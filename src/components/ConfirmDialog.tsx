@@ -30,8 +30,8 @@ const ConfirmDialog: React.FC<ConfirmDialogProps> = ({
       <div className="w-full max-w-sm rounded-2xl bg-white p-6 shadow-xl">
         <form
           onSubmit={(e) => {
-            e.preventDefault(); // Prevent form submission from refreshing the page
-            onConfirm(); // Trigger confirm action
+            e.preventDefault();
+            onConfirm(); 
           }}
         >
           {/* Title */}
@@ -41,17 +41,17 @@ const ConfirmDialog: React.FC<ConfirmDialogProps> = ({
           <p className="mt-2 text-sm text-gray-600">{message}</p>
 
           {/* Buttons */}
-          <div className="mt-5 flex justify-end gap-2">
+          <div className="mt-5  flex justify-end gap-2">
             <button
               type="button"
-              className="rounded-xl border px-4 py-2 text-sm text-gray-700 hover:bg-gray-50"
+              className="rounded-xl cursor-pointer bg-gray-300 px-4 py-2 text-sm text-gray-700 hover:bg-gray-400"
               onClick={onClose}
             >
               {cancelText}
             </button>
             <button
               type="submit"
-              className="rounded-xl bg-red-600 px-4 py-2 text-sm font-medium text-white hover:bg-red-700"
+              className="rounded-xl cursor-pointer bg-red-600 px-4 py-2 text-sm font-medium text-white hover:bg-red-700"
             >
               {confirmText}
             </button>

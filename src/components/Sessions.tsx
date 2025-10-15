@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { Search, Columns, LogOut, Trash2 } from "lucide-react";
+import ConfirmDialog from "./ConfirmDialog";
 import {
   Table,
   TableHeader,
@@ -15,10 +16,11 @@ import {
   CardHeader,
   CardTitle,
   CardContent,
-} from "./ui/card"; 
+} from "./ui/card";
 
 const Sessions: React.FC = () => {
   const [search, setSearch] = useState("");
+  const [deleteUser, setDeleteUser] = useState<any>(null);
 
   const sessions = [
     { id: "superadmin", name: "Super Admin", email: "superadmin@example.com" },
@@ -62,7 +64,7 @@ const Sessions: React.FC = () => {
                 <TableHead>Employee ID</TableHead>
                 <TableHead>Name</TableHead>
                 <TableHead>Email</TableHead>
-                <TableHead className="flex items-center">Action</TableHead>
+                <TableHead>Action</TableHead>
               </TableRow>
             </TableHeader>
 
@@ -75,9 +77,10 @@ const Sessions: React.FC = () => {
                     <TableCell>{session.email}</TableCell>
                     <TableCell className="text-center">
                       <Button
-                        variant="ghost"
                         size="sm"
-                        className="text-red-600 rounded-xm border bg-gray-50 cursor-pointer hover:text-red-700 flex items-center"
+                        className="text-red-500 rounded-xm border bg-gray-50 cursor-pointer hover:bg-red-50 flex items-center"
+
+                           onClick={() => setDeleteUser(session)}
                       >
                         <Trash2  size={16} /> 
                       </Button>
@@ -98,6 +101,30 @@ const Sessions: React.FC = () => {
           </Table>
         </div>
       </CardContent>
+        {/* confirm delete */}
+
+      <ConfirmDialog
+        open={!!deleteUser}
+        title="Delete user?"
+        message={
+          deleteUser
+            ? `Are you sure you want to delete “(Name:${deleteUser.name})” (ID: ${deleteUser.id})? This action cannot be undone.`
+            : undefined
+        }
+
+        confirmText="Delete"
+        cancelText="Cancel"
+        onConfirm={() => {
+          if (deleteUser) {
+
+          // delete er logic
+            // setRows((prev) => prev.filter((r) => r.id !== deleteUser.id));
+            console.log("User confirmed delete for:", deleteUser);
+            setDeleteUser(null);
+          }
+        }}
+        onClose={() => setDeleteUser(null)}
+      />
     </Card>
   );
 };

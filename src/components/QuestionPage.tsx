@@ -262,7 +262,7 @@ const QuestionPage: React.FC = () => {
             >
               <Plus className="h-4 w-4" /> Question Create
             </button>
-            <button className="inline-flex items-center gap-2 rounded-xl border  bg-[#5670F7] px-4 py-2 text-sm font-medium text-[#FDFFFF] hover:bg-blue-600">
+            <button className="flex items-center gap-2 rounded-xl border  bg-[#5670F7] px-4 py-2 text-sm font-medium text-[#FDFFFF] hover:bg-blue-600">
               <Upload className="h-4 w-4" /> Upload
             </button>
             <button className="inline-flex items-center gap-2 rounded-xl border  bg-[#5670F7] px-4 py-2 text-sm font-medium text-[#FDFFFF] hover:bg-blue-600">

@@ -10,7 +10,7 @@ import {
   Shield,
   CheckCircle2,
   XCircle,
-  Loader2,
+  ArrowLeft,
 } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 
@@ -98,12 +98,11 @@ const emptyRolePerms = (): RolePermissions =>
     return acc;
   }, {} as RolePermissions);
 
-const SettingsPage: React.FC = () => {
+const AddRole: React.FC = () => {
   const [selectedRole, setSelectedRole] = useState<string>("");
   const [rolePerms, setRolePerms] = useState<RolePermissions>(emptyRolePerms);
   const [showSuccess, setShowSuccess] = useState(false);
   const [showFailure, setShowFailure] = useState(false);
-  const [saving, setSaving] = useState(false);
   const navigate = useNavigate();
 
   const current: PermissionMap | null = useMemo(() => {
@@ -182,14 +181,12 @@ const SettingsPage: React.FC = () => {
   return (
     <div className="flex min-h-screen text-gray-900">
       <div className="flex-1">
-        <main className="mx-auto w-full max-w-[1300px] px-4 py-5 md:px-6">
-          <h2 className="text-2xl font-semibold mb-6">Add Role</h2>
+        <main className="mx-auto w-full max-w-[1400px] px-4 py-2 md:px-6">
 
-          {/* Role Name + Select All */}
           <div className="mb-4 flex items-end gap-3">
             {/* Role Name Input */}
             <div className="flex-1">
-              <label className="mb-1 block text-[13px] font-medium text-gray-800">
+              <label className="mb-1 block text-[14px] font-medium text-gray-800">
                 Role Name
               </label>
               <input
@@ -212,13 +209,13 @@ const SettingsPage: React.FC = () => {
                   });
                 }}
                 placeholder="Enter role name (e.g. Admin)"
-                className="w-full max-w-sm rounded-xl border border-gray-400 px-3 py-1.5 text-[13px] text-gray-900 focus:border-blue-500 focus:ring focus:ring-blue-200"
+                className="w-full max-w-xm rounded-xl border border-gray-400 px-3 py-1.5 text-[13px] text-gray-900 focus:border-blue-500 focus:ring focus:ring-blue-200"
               />
             </div>
 
             {/* Select All Checkbox */}
             <div className="flex flex-col items-center justify-end">
-              <label className="flex items-center gap-1 text-[13px] font-medium text-gray-800">
+              <label className="flex items-center gap-1 text-[15px] py-1 font-medium text-gray-800">
                 <input
                   type="checkbox"
                   className="h-4 w-4"
@@ -239,6 +236,25 @@ const SettingsPage: React.FC = () => {
                 />
                 Select All
               </label>
+            </div>
+            <div className="flex items-center gap-2">
+
+              <button className=" flex items-center px-2 py-1.5 text-[13px] rounded-lg bg-[#69e8ff] hover:bg-sky-300 cursor-pointer"
+              onClick={() => navigate(-1)}
+              >
+                <ArrowLeft className="w-3.5 h-3.5" />Back
+              
+              </button>
+              <button
+                disabled={!canSave}
+                onClick={handleSave}
+                className={`inline-flex items-center gap-2 rounded-lg px-4 py-1.5 text-[13px] cursor-pointer font-medium ${!canSave
+                    ? "bg-[#5670F7] text-[#FDFFFF] cursor-not-allowed"
+                    : "bg-[#5670F7] text-[#FDFFFF] hover:bg-blue-600"
+                  }`}
+              >
+                Save
+              </button>
             </div>
           </div>
 
@@ -289,28 +305,6 @@ const SettingsPage: React.FC = () => {
                 </section>
               );
             })}
-          </div>
-
-          {/* Save / Cancel Buttons */}
-          <div className="mt-5 flex justify-between">
-            <button
-              onClick={() => navigate(-1)}
-              className="rounded-lg border border-gray-300 px-4 py-1.5 text-[13px] font-medium text-gray-700 hover:bg-gray-100"
-            >
-              Cancel
-            </button>
-
-            <button
-              disabled={!canSave}
-              onClick={handleSave}
-              className={`inline-flex items-center gap-2 rounded-lg px-4 py-1.5 text-[13px] font-medium ${
-                !canSave
-                  ? "bg-[#5670F7] text-[#FDFFFF] cursor-not-allowed"
-                  : "bg-[#5670F7] text-[#FDFFFF] hover:bg-blue-600"
-              }`}
-            >
-              {saving && <Loader2 className="animate-spin h-4 w-4" />} Save
-            </button>
           </div>
         </main>
       </div>
@@ -364,4 +358,4 @@ const SettingsPage: React.FC = () => {
   );
 };
 
-export default SettingsPage;
+export default AddRole;

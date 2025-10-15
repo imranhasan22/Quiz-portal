@@ -75,9 +75,10 @@ const ROUTE_TITLES: TitleRule[] = [
   },
 
   { pattern: '/calendar', title: 'Calendar', icon: <CalendarDays className="h-5 w-5" />, end: true },
-  { pattern: '/usersetting', title: 'UserSettings', icon: <Settings className='h-5 w-5' />, end: true },
+  { pattern: '/settings', title: 'Settings', icon: <Settings className='h-5 w-5' />, end: true },
   { pattern:'/role',title:'Role',icon :<UserCog className='h-5 w-5'/>,end:true },
   { pattern: '/role/addrole', title: 'Add role', icon: <UserCog className="h-5 w-5" />,end:true },
+  { pattern: '/role/editrole', title: 'Edit Role', icon: <UserCog className="h-5 w-5" />,end:true },
 
 ];
 
@@ -136,7 +137,7 @@ const Sidebar: React.FC<{ pathname: string }> = ({ pathname }) => {
         <NavItem icon={<FileBarChart className="h-5 w-5" />} label="Report" to="/report" active={isActive('/report')} />
         <NavItem icon={<ClipboardList className="h-5 w-5" />} label="userQuiz" to="/userquiz" active={isActive('/userquiz')} />
         <NavItem icon={<CalendarDays className="h-5 w-5" />} label="Calendar" to="/calendar" active={isActive('/calendar')} />
-        <NavItem icon={<Settings className="h-5 w-5" />} label="UserSettings" to="/usersetting" active={isActive('/usersetting')} />
+        <NavItem icon={<Settings className="h-5 w-5" />} label="Settings" to="/settings" active={isActive('/settings')} />
         <NavItem icon={<UserCog className="h-5 w-5" />} label="Role" to="/role" active={isActive('/role')} />
       </nav>
     </aside>
@@ -161,9 +162,9 @@ const DashboardLayout: React.FC<DashboardLayoutProps> = ({ onLogout }) => {
           title={pageMeta.title}
           icon={pageMeta.icon}
           userName={userName}
-          onUserProfile={()=>navigate('/usersetting')}
-          onSettings={() => navigate('/setting')}
-          onChangePassword={() => navigate('/setting')}
+          onUserProfile={()=>navigate('/settings')}
+          onSettings={() => navigate('/settings')}
+          onChangePassword={() => navigate('/settings')}
           onLogout={() => {
             onLogout();
             navigate('/', { replace: true });

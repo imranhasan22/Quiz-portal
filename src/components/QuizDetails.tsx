@@ -1,8 +1,8 @@
 
 import React, { useMemo } from "react";
-import { Circle, CheckCircle2 } from "lucide-react";
+import { Circle,ArrowLeft, CheckCircle2 } from "lucide-react";
 import { useParams } from "react-router-dom";
-
+import { useNavigate } from "react-router-dom";
 type Question = { id: number; text: string; options: string[] };
 
 const ALL_QUESTIONS: Question[] = Array.from({ length: 10 }, (_, i) => ({
@@ -30,6 +30,8 @@ const QuizDetails: React.FC = () => {
     []
   );
 
+    const navigate = useNavigate();
+
 
     const { quizId } = useParams();
     const currentTitle = useMemo(
@@ -42,13 +44,19 @@ const QuizDetails: React.FC = () => {
       {/* Header */}
       <div className="rounded-xl border bg-white shadow-sm px-6 py-4 flex items-center justify-between">
         <h1 className="text-2xl font-semibold text-gray-900">{currentTitle}</h1>
-        <div className="text-xs">
-          <span className="inline-flex items-center gap-1 rounded-md bg-gray-100 px-2.5 py-1 font-medium text-gray-700">
+        <div className=" flex items-center gap-3 text-[14px]">
+          <span className="inline-flex items-center bg-blue-500 gap-1 rounded-md bg-blue-500 px-2 py-1 font-medium text-white">
             Total Answered{" "}
-            <span className="ml-1 inline-flex h-6 min-w-12 items-center justify-center rounded-md bg-gray-800 px-2 text-white">
+            <span className="ml-1 inline-flex h-6 min-w-12 items-center justify-center rounded-md px-2 ">
               {answeredCount}/{totalQuestions}
             </span>
           </span>
+           <button className=" flex items-center px-2 py-1.5 font-medium  rounded-lg bg-[#69e8ff] hover:bg-sky-300 cursor-pointer"
+              onClick={() => navigate(-1)}
+              >
+                <ArrowLeft className="w-3.5 h-3.5" />Back
+              
+              </button>
         </div>
       </div>
 

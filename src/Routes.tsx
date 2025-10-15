@@ -10,12 +10,13 @@ import Question from './components/QuestionPage';
 import QuizPage from './components/QuizPage';
 import ResultPage from './components/ResultPage';
 import ReportPage from './components/ReportPage';
-import SettingsPage from './components/SettingsPage';
+import AddRole from './components/AddRole';
+import EditRole from './components/EditRole';
 import UserQuiz from './components/UserQuiz';
 import TakeQuizPage from './components/TakeQuizPage';
 import CreateQuizModal from './components/CreateQuizModal';
 import CalendarPage from './components/CalendarPage';
-import UserSettings from './components/UserSettings';
+import Settings from './components/Settings';
 import  QuizDetails  from './components/QuizDetails';
 import Role from './components/Role';
 
@@ -63,7 +64,7 @@ const AppRoutes: React.FC = () => {
 
           <Route path="/result" element={<ResultPage />} />
           <Route path="/report" element={<ReportPage />} />
-          {/* <Route path="/setting" element={<SettingsPage />} /> */}
+    
 
           {/* User quiz */}
           <Route path="/userquiz" element={<UserQuiz />} />
@@ -72,9 +73,10 @@ const AppRoutes: React.FC = () => {
           
 
           <Route path="/calendar" element={<CalendarPage/>}/>
-          <Route path="/usersetting" element={<UserSettings/>}/>
+          <Route path="/settings" element={<Settings/>}/>
           <Route path="/role" element={<Role/>}/>
-          <Route path="/role/addrole" element={<SettingsPage/>} /> 
+          <Route path="/role/addrole" element={<AddRole/>} />
+          <Route path="/role/editrole" element={<EditRole/>}/> 
         </Route>
 
         {/* 404 */}

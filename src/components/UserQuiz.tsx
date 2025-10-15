@@ -123,7 +123,7 @@ const UserQuiz: React.FC = () => {
                 <button
                     className={cx(
                         "pb-2 transition text-sm sm:text-base",
-                        tab === "pending" ? "border-b-2 border-black font-medium text-gray-900" : "text-gray-500 hover:text-gray-800"
+                        tab === "pending" ? "border-b-2 border-black cursor-pointer font-medium text-gray-900" : "text-gray-500 cursor-pointer hover:text-gray-800"
                     )}
                     onClick={() => setTab("pending")}
                     aria-current={tab === "pending" ? "page" : undefined}
@@ -134,7 +134,7 @@ const UserQuiz: React.FC = () => {
                 <button
                     className={cx(
                         "pb-2 transition text-sm sm:text-base",
-                        tab === "scores" ? "border-b-2 border-black font-medium text-gray-900" : "text-gray-500 hover:text-gray-800"
+                        tab === "scores" ? "border-b-2 border-black cursor-pointer font-medium text-gray-900" : "text-gray-500 cursor-pointer hover:text-gray-800"
                     )}
                     onClick={() => setTab("scores")}
                     aria-current={tab === "scores" ? "page" : undefined}
@@ -154,7 +154,7 @@ const UserQuiz: React.FC = () => {
                                     setActiveQuiz(q);
                                     setOpen(true);
                                 }}
-                                className="text-left bg-gray-100 rounded-xl p-4 shadow-sm hover:shadow-md transition focus:outline-none focus:ring-2 focus:ring-gray-900/20"
+                                className="text-left bg-gray-100 rounded-xl p-4 cursor-pointer shadow-sm hover:shadow-md transition focus:outline-none focus:ring-2 focus:ring-gray-900/20"
                             >
                                 <h3 className="text-lg font-semibold text-gray-900 mb-1">{q.title}</h3>
                                 <p className="text-sm text-gray-500 mb-4">Created by: {q.createdBy}</p>
@@ -200,7 +200,7 @@ const UserQuiz: React.FC = () => {
                         <button
                             key={q.id}
                             onClick={() => navigate(`/userquiz/details/${q.id}`)}
-                            className="text-left bg-gray-100 rounded-xl p-4 shadow-sm hover:shadow-md transition focus:outline-none focus:ring-2 focus:ring-gray-900/20"
+                            className="text-left bg-gray-100 cursor-pointer rounded-xl p-4 shadow-sm hover:shadow-md transition focus:outline-none focus:ring-2 focus:ring-gray-900/20"
                         >
                             <h3 className="text-lg font-semibold text-gray-900 mb-1">{q.title}</h3>
                             <p className="text-sm text-gray-500 mb-4">Created by: {q.createdBy}</p>

@@ -1,6 +1,6 @@
 import React, { useEffect, useMemo, useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
-import { Circle, CheckCircle2,XCircle } from "lucide-react";
+import { Circle, CheckCircle2,XCircle,ArrowLeft } from "lucide-react";
 
 /** mock questions — replace with API */
 type Question = { id: number; text: string; options: string[] };
@@ -106,10 +106,19 @@ const TakeQuizPage: React.FC = () => {
       {/* Header card */}
       <div className="rounded-xl border bg-white shadow-sm px-6 py-4 mb-6 flex items-center justify-between">
         <h1 className="text-2xl font-semibold text-gray-900">{currentTitle}</h1>
-        <div className="text-xs">
-          <span className="inline-flex items-center gap-1 rounded-md bg-gray-100 px-2.5 py-1 font-medium text-gray-700">
-            Total Score <span className="ml-1 inline-flex h-6 min-w-12 items-center justify-center rounded-md bg-gray-800 px-2 text-white">0/20</span>
+        <div className=" flex items-center gap-3 text-[14px]">
+          <span className="inline-flex items-center gap-1 text-white rounded-md bg-blue-500 px-2 py-1 font-medium text-gray-700">
+            Total Answered{" "}
+            <span className="ml-1 inline-flex h-6 min-w-12 items-center justify-center rounded-md px-2 ">
+              0/20
+            </span>
           </span>
+           <button className=" flex items-center px-2 py-1.5 font-medium  rounded-lg bg-[#69e8ff] hover:bg-sky-300 cursor-pointer"
+              onClick={() => navigate(-1)}
+              >
+                <ArrowLeft className="w-3.5 h-3.5" />Back
+              
+              </button>
         </div>
       </div>
 

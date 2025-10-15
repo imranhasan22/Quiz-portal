@@ -86,7 +86,7 @@ const CalendarPage: React.FC = () => {
     d.getMonth() === viewDate.getMonth() && d.getFullYear() === viewDate.getFullYear();
 
   return (
-    <div className="px-6 py-6">
+    <div className="px-5">
       {/* Top row (title + arrows + right icons to match your topbar spacing if needed) */}
       <div className="mb-6 flex items-center justify-between">
         <div className="flex items-center gap-2">

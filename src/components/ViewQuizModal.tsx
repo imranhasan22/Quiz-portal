@@ -50,7 +50,7 @@ const ViewQuizModal: React.FC<Props> = ({ open, data, onClose }) => {
             <div className="absolute inset-0 bg-black/40" />
 
             <div className="relative z-10 w-[600px] max-w-[94vw] rounded-2xl bg-white p-6 shadow-xl"
-                onClick={(e) => e.stopPropagation()} // Prevent closing when clicking outside the modal
+                onClick={(e) => e.stopPropagation()} 
             >
                 {/* Header */}
                 <div className="mb-4 flex items-center justify-between">

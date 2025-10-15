@@ -278,7 +278,6 @@ const Content: React.FC = () => {
         </section>
 
         <section className="mt-6">
-          {/* ⬇️ ফিল্টারড ডাটা পাঠাচ্ছি */}
           <ChartCard data={filteredData} />
         </section>
       </main>

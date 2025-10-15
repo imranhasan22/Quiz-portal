@@ -190,7 +190,7 @@ const CreateQuizModal: React.FC = () => {
                   type="button"
                   onClick={addItem}
                   disabled={!questionKey}
-                  className="inline-flex items-center gap-2 rounded-lg bg-gray-800 px-4 py-2 text-sm font-medium text-white hover:bg-gray-700 disabled:opacity-50"
+                  className="flex items-center gap-2 rounded-lg bg-[#1447E6] px-4 py-2 text-sm font-medium text-white hover:bg-blue-600 disabled:opacity-50 cursor-pointer"
                 >
                   Add <Plus className="h-4 w-4" />
                 </button>
@@ -255,7 +255,7 @@ const CreateQuizModal: React.FC = () => {
             <button
               type="button"
               onClick={handleSaveClick}
-              className="w-full rounded-md bg-blue-600 px-4 py-2 text-sm font-medium text-white hover:bg-blue-700 shadow-md hover:shadow-lg"
+              className="w-full cursor-pointer rounded-md bg-blue-600 px-4 py-2 text-sm font-medium text-white hover:bg-blue-700 shadow-md hover:shadow-lg"
             >
               Save
             </button>

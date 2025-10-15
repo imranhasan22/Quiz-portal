@@ -4,7 +4,7 @@ import { User } from "lucide-react";
 import Sessions from "./Sessions";
 import AccountSettings from "./AccountSettings";
 
-const UserSettings: React.FC = () => {
+const Settings: React.FC = () => {
   const [activeTab, setActiveTab] = useState("account");
 
   return (
@@ -97,4 +97,4 @@ const UserSettings: React.FC = () => {
   );
 };
 
-export default UserSettings;
+export default Settings;
