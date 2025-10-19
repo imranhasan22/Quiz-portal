@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Search, Columns, LogOut, Trash2 } from "lucide-react";
+import { Search,Trash2 } from "lucide-react";
 import ConfirmDialog from "./ConfirmDialog";
 import {
   Table,

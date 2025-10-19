@@ -78,7 +78,7 @@ const ROUTE_TITLES: TitleRule[] = [
   { pattern: '/settings', title: 'Settings', icon: <Settings className='h-5 w-5' />, end: true },
   { pattern:'/role',title:'Role',icon :<UserCog className='h-5 w-5'/>,end:true },
   { pattern: '/role/addrole', title: 'Add role', icon: <UserCog className="h-5 w-5" />,end:true },
-  { pattern: '/role/editrole', title: 'Edit Role', icon: <UserCog className="h-5 w-5" />,end:true },
+  { pattern: '/role/editrole/:roleId', title: 'Edit Role', icon: <UserCog className="h-5 w-5" />,end:true },
 
 ];
 

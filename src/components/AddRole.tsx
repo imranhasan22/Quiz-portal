@@ -2,91 +2,15 @@
 
 import React, { useEffect, useMemo, useRef, useState } from "react";
 import {
-  BarChart3,
-  FileQuestion,
-  Users,
-  BookOpenCheck,
-  FileBarChart,
-  Shield,
   CheckCircle2,
   XCircle,
   ArrowLeft,
 } from "lucide-react";
 import { useNavigate } from "react-router-dom";
-
-// Types and permissions setup
+import {GROUPS} from'../lib/dummy-data';
 type PermissionMap = Record<string, boolean>;
 type RolePermissions = Record<string, PermissionMap>;
-type Group = {
-  key: string;
-  icon?: React.ReactNode;
-  title: string;
-  items: { key: string; label: string }[];
-};
 
-const GROUPS: Group[] = [
-  {
-    key: "dashboard",
-    title: "Dashboard",
-    icon: <BarChart3 className="h-3.5 w-3.5 text-indigo-600" />,
-    items: [
-      { key: "quiz_activity", label: "Quiz’s Activity" },
-      { key: "process_ratio", label: "Process Wise Pass & Fail Ratio" },
-    ],
-  },
-  {
-    key: "user",
-    title: "User",
-    icon: <Users className="h-3.5 w-3.5 text-blue-600" />,
-    items: [
-      { key: "user_table", label: "User Table" },
-      { key: "create_user", label: "Create User" },
-      { key: "remove_user", label: "Remove User" },
-      { key: "view_user", label: "View User" },
-    ],
-  },
-  {
-    key: "question",
-    title: "Question",
-    icon: <FileQuestion className="h-3.5 w-3.5 text-purple-600" />,
-    items: [
-      { key: "create_question", label: "Question Create" },
-      { key: "view_question", label: "View Question" },
-      { key: "edit_question", label: "Edit Question" },
-      { key: "upload_question", label: "Upload Question" },
-      { key: "export_question", label: "Export Question" },
-    ],
-  },
-  {
-    key: "quiz",
-    title: "Quiz",
-    icon: <BookOpenCheck className="h-3.5 w-3.5 text-green-600" />,
-    items: [
-      { key: "quiz_create", label: "Quiz Create" },
-      { key: "quiz_upload", label: "Upload Quiz" },
-      { key: "quiz_export", label: "Export Quiz" },
-      { key: "quiz_edit", label: "Edit Quiz" },
-    ],
-  },
-  {
-    key: "result",
-    title: "Result",
-    icon: <FileBarChart className="h-3.5 w-3.5 text-amber-600" />,
-    items: [
-      { key: "result_export", label: "Result Export" },
-      { key: "view_result", label: "View Result" },
-    ],
-  },
-  {
-    key: "report",
-    title: "Report",
-    icon: <Shield className="h-3.5 w-3.5 text-rose-600" />,
-    items: [
-      { key: "report_export", label: "Report Export" },
-      { key: "report_delete", label: "Report Delete" },
-    ],
-  },
-];
 
 const ROLES = ["Admin", "Supervisor", "Agent", "Viewer"];
 
@@ -137,11 +61,7 @@ const AddRole: React.FC = () => {
     const checkedCount = all.filter((k) => current?.[k]).length;
     const allCount = all.length;
     const ref = useRef<HTMLInputElement>(null);
-    useEffect(() => {
-      if (ref.current) {
-        ref.current.indeterminate = checkedCount > 0 && checkedCount < allCount;
-      }
-    }, [checkedCount, allCount]);
+   
     return {
       ref,
       checked: checkedCount === allCount && allCount > 0,
@@ -239,18 +159,19 @@ const AddRole: React.FC = () => {
             </div>
             <div className="flex items-center gap-2">
 
-              <button className=" flex items-center px-2 py-1.5 text-[13px] rounded-lg bg-[#69e8ff] hover:bg-sky-300 cursor-pointer"
-              onClick={() => navigate(-1)}
+              <button
+                onClick={() => navigate(-1)}
+                className="flex items-center gap-1 rounded-lg bg-[#69e8ff] px-3 py-1.5 text-sm font-medium hover:bg-sky-300"
               >
-                <ArrowLeft className="w-3.5 h-3.5" />Back
-              
+                <ArrowLeft className="h-4 w-4" />
+                Back
               </button>
               <button
                 disabled={!canSave}
                 onClick={handleSave}
-                className={`inline-flex items-center gap-2 rounded-lg px-4 py-1.5 text-[13px] cursor-pointer font-medium ${!canSave
-                    ? "bg-[#5670F7] text-[#FDFFFF] cursor-not-allowed"
-                    : "bg-[#5670F7] text-[#FDFFFF] hover:bg-blue-600"
+                className={`rounded-lg bg-[#5670F7] px-4 py-1.5 text-sm font-medium text-white hover:bg-blue-600 ${!canSave
+                  ? "bg-[#5670F7] text-[#FDFFFF] cursor-not-allowed"
+                  : "bg-[#5670F7] text-[#FDFFFF] hover:bg-blue-600"
                   }`}
               >
                 Save
@@ -266,9 +187,6 @@ const AddRole: React.FC = () => {
                 <section key={g.key} className="rounded-lg border bg-white shadow-sm text-[13px]">
                   <header className="flex items-center justify-between rounded-t-lg bg-gray-100 px-3 py-2">
                     <div className="flex items-center gap-2">
-                      <div className="flex h-6 w-6 items-center justify-center rounded-md bg-white shadow-sm">
-                        {g.icon ?? <Shield className="h-3.5 w-3.5 text-gray-700" />}
-                      </div>
                       <h3 className="text-[13px] font-semibold">{g.title}</h3>
                     </div>
                     <input

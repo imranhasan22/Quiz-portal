@@ -75,8 +75,8 @@ const AppRoutes: React.FC = () => {
           <Route path="/calendar" element={<CalendarPage/>}/>
           <Route path="/settings" element={<Settings/>}/>
           <Route path="/role" element={<Role/>}/>
-          <Route path="/role/addrole" element={<AddRole/>} />
-          <Route path="/role/editrole" element={<EditRole/>}/> 
+          <Route path="/role/addrole/" element={<AddRole/>} />
+          <Route path="/role/editrole/:roleId" element={<EditRole/>}/> 
         </Route>
 
         {/* 404 */}
